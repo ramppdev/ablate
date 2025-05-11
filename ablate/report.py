@@ -1,9 +1,13 @@
-from typing import List
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, List
 
 from typing_extensions import Self
 
-from ablate.blocks import AbstractBlock
-from ablate.core.types import Run
+
+if TYPE_CHECKING:
+    from ablate.blocks import AbstractBlock
+    from ablate.core.types import Run
 
 
 class Report:
@@ -30,7 +34,7 @@ class Report:
         self.blocks.append(block)
         return self
 
-    def __add__(self, block: AbstractBlock) -> Self:
+    def __add__(self, block: AbstractBlock) -> Report:
         r = Report(self.runs)
         r.blocks = self.blocks + [block]
         return r

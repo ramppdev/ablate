@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, Callable, List
+from typing import Any, Callable, List, cast
 
 from ablate.blocks import (
     AbstractBlock,
@@ -43,7 +43,8 @@ class AbstractExporter(ABC):
         for block in report.blocks:
             for block_type, render_fn in render_map.items():
                 if isinstance(block, block_type):
-                    content.append(self._apply_render_fn(block, render_fn, report.runs))
+                    fn = cast("Callable[[AbstractBlock, List[Run]], Any]", render_fn)
+                    content.append(self._apply_render_fn(block, fn, report.runs))
                     break
             else:
                 raise ValueError(f"Unknown block type: '{type(block)}'.")
@@ -52,7 +53,7 @@ class AbstractExporter(ABC):
     @staticmethod
     def _apply_render_fn(
         block: AbstractBlock,
-        fn: Callable[[AbstractBlock], Any],
+        fn: Callable[[AbstractBlock, List[Run]], Any],
         runs: List[Run],
     ) -> Any:
         if block.runs:

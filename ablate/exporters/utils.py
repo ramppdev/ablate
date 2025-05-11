@@ -10,22 +10,12 @@ from ablate.blocks import H1, H2, H3, H4, H5, H6
 
 HEADING_LEVELS = {H1: 1, H2: 2, H3: 3, H4: 4, H5: 5, H6: 6}
 
-DEFAULT_PLOT_STYLE = {
-    "style": "whitegrid",
-    "context": "paper",
-    "palette": "muted",
-    "dpi": 300,
-    "font_scale": 0.8,
-}
-
 
 def apply_default_plot_style() -> None:
-    sns.set_style(DEFAULT_PLOT_STYLE["style"])
-    sns.set_context(
-        DEFAULT_PLOT_STYLE["context"], font_scale=DEFAULT_PLOT_STYLE["font_scale"]
-    )
-    sns.set_palette(DEFAULT_PLOT_STYLE["palette"])
-    plt.rcParams["figure.dpi"] = DEFAULT_PLOT_STYLE["dpi"]
+    sns.set_style("whitegrid")
+    sns.set_context("paper", font_scale=0.8)
+    sns.set_palette("muted")
+    plt.rcParams["figure.dpi"] = 300
 
 
 def render_metric_plot(
