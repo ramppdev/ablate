@@ -27,6 +27,7 @@ dependencies = [
 [dependency-groups]
 dev = [
     "codespell>=2.4.1",
+    "mypy==1.15.0",
     "pre-commit==4.2.0",
     "pytest>=8.3.5",
     "pytest-cov>=6.1.1",
@@ -86,3 +87,9 @@ testpaths = "tests"
 
 [tool.codespell]
 skip = "uv.lock"
+
+[tool.mypy]
+files = ["ablate/"]
+strict = true
+ignore_missing_imports = true
+explicit_package_bases = true
