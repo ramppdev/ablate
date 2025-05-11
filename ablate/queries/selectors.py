@@ -6,13 +6,16 @@ from ablate.core.types import Run
 
 
 class AbstractSelector(ABC):
-    def __init__(self, name: str) -> None:
+    def __init__(self, name: str, label: str | None = None) -> None:
         """Abstract class for selecting runs based on a specific attribute.
 
         Args:
             name: Name of the attribute to select on.
+            label: Optional label for displaying purposes. If None, defaults to `name`.
+                Defaults to None.
         """
         self.name = name
+        self.label = label or name
 
     @abstractmethod
     def __call__(self, run: Run) -> Any: ...
@@ -43,9 +46,14 @@ class AbstractParam(AbstractSelector, ABC): ...
 
 
 class Id(AbstractParam):
-    def __init__(self) -> None:
-        """Selector for the ID of the run."""
-        super().__init__("id")
+    def __init__(self, label: str | None = None) -> None:
+        """Selector for the ID of the run.
+
+        Args:
+            label: Optional label for displaying purposes. If None, defaults to `name`.
+                Defaults to None.
+        """
+        super().__init__("id", label)
 
     def __call__(self, run: Run) -> str:
         return run.id
@@ -63,8 +71,9 @@ class AbstractMetric(AbstractSelector, ABC):
         self,
         name: str,
         direction: Literal["min", "max"],
+        label: str | None = None,
     ) -> None:
-        super().__init__(name)
+        super().__init__(name, label)
         if direction not in ("min", "max"):
             raise ValueError(
                 f"Invalid direction: '{direction}'. Must be 'min' or 'max'."
@@ -79,6 +88,8 @@ class Metric(AbstractMetric):
         name: Name of the metric to select on.
         direction: Direction of the metric. "min" for minimization, "max" for
             maximization.
+        label: Optional label for displaying purposes. If None, defaults to `name`.
+            Defaults to None.
     """
 
     def __call__(self, run: Run) -> float:
@@ -94,6 +105,7 @@ class TemporalMetric(AbstractMetric):
         name: str,
         direction: Literal["min", "max"],
         reduction: Literal["min", "max", "first", "last"] | None = None,
+        label: str | None = None,
     ) -> None:
         """Selector for a specific temporal metric of the run.
 
@@ -105,8 +117,10 @@ class TemporalMetric(AbstractMetric):
                 minimum, "max" for maximum, "first" for the first value, and "last"
                 for the last value. If None, the direction is used as the reduction.
                 Defaults to None.
+            label: Optional label for displaying purposes. If None, defaults to `name`.
+                Defaults to None.
         """
-        super().__init__(name, direction)
+        super().__init__(name, direction, label)
         if reduction is not None and reduction not in ("min", "max", "first", "last"):
             raise ValueError(
                 f"Invalid reduction method: '{reduction}'. Must be 'min', 'max', "
