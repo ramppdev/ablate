@@ -19,7 +19,7 @@ class AbstractFigureBlock(AbstractBlock, ABC):
     def build(self, runs: List[Run]) -> pd.DataFrame: ...
 
 
-class MetricPlot(AbstractBlock):
+class MetricPlot(AbstractFigureBlock):
     def __init__(
         self,
         metric: AbstractMetric | List[AbstractMetric],
