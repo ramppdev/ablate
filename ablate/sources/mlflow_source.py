@@ -40,12 +40,12 @@ class MLflow(AbstractSource):
         self.client = MlflowClient(uri)
 
     def load(self) -> List[Run]:
-        runs = self.client.search_runs(
-            [
-                self.client.get_experiment_by_name(n).experiment_id
-                for n in self.experiment_names
-            ]
-        )
+        ids = [self.client.get_experiment_by_name(n) for n in self.experiment_names]
+        if not all(ids):
+            raise ValueError(
+                f"One or more experiment names not found: {self.experiment_names}"
+            )
+        runs = self.client.search_runs([e.experiment_id for e in ids if e])
         records: List[Run] = []
         for run in runs:
             p, m, t = run.data.params, run.data.metrics, {}
