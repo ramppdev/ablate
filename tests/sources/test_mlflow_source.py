@@ -60,3 +60,14 @@ def test_import_error_if_mlflow_not_installed() -> None:
         pytest.raises(ImportError, match="MLflow source requires `mlflow`"),
     ):
         MLflow(tracking_uri="/fake", experiment_names=["exp"])
+
+
+@patch("mlflow.tracking.MlflowClient")
+def test_mlflow_raises_on_invalid_experiment_name(client: MagicMock) -> None:
+    mock_client = client.return_value
+    mock_client.get_experiment_by_name.return_value = None
+
+    source = MLflow(tracking_uri="/fake/path", experiment_names=["nonexistent"])
+
+    with pytest.raises(ValueError, match="One or more experiment names not found"):
+        source.load()
