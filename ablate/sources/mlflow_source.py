@@ -1,0 +1,57 @@
+from pathlib import Path
+from typing import List
+from urllib.parse import urlparse
+
+from ablate.core.types import Run
+
+from .abstract_source import AbstractSource
+
+
+class MLflow(AbstractSource):
+    def __init__(self, experiment_names: List[str], tracking_uri: str | None) -> None:
+        """MLflow source for loading runs from a MLflow server.
+
+        Args:
+            experiment_names: A list of experiment names to load runs from.
+            tracking_uri: The URI or local path to the MLflow tracking server.
+                If None, use the default tracking URI set in the MLflow configuration.
+                Defaults to None.
+
+        Raises:
+            ImportError: If the `mlflow` package is not installed.
+        """
+        try:
+            from mlflow.tracking import MlflowClient
+        except ImportError as e:
+            raise ImportError(
+                "MLflow source requires `mlflow`. "
+                "Please install with `pip install ablate[mlflow]`."
+            ) from e
+
+        self.tracking_uri = tracking_uri
+        self.experiment_names = experiment_names
+        if not tracking_uri:
+            self.client = MlflowClient()
+            return
+        if urlparse(tracking_uri).scheme in {"http", "https", "file"}:
+            uri = tracking_uri
+        else:
+            uri = Path(tracking_uri).resolve().as_uri()
+        self.client = MlflowClient(uri)
+
+    def load(self) -> List[Run]:
+        runs = self.client.search_runs(
+            [
+                self.client.get_experiment_by_name(n).experiment_id
+                for n in self.experiment_names
+            ]
+        )
+        records: List[Run] = []
+        for run in runs:
+            p, m, t = run.data.params, run.data.metrics, {}
+            p.update(run.data.tags)
+            for name in m:
+                history = self.client.get_metric_history(run.info.run_id, name)
+                t[name] = [(h.step, h.value) for h in history]
+            records.append(Run(id=run.info.run_id, params=p, metrics=m, temporal=t))
+        return records
