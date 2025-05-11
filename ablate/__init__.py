@@ -1,6 +1,7 @@
-from . import blocks, queries, sources
+from . import blocks, exporters, queries, sources
+from .report import Report
 
 
-__all__ = ["blocks", "queries", "sources"]
+__all__ = ["blocks", "exporters", "queries", "Report", "sources"]
 
 __version__ = "0.1.0"

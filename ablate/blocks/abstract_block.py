@@ -16,7 +16,8 @@ class AbstractBlock(ABC):
 
     @abstractmethod
     def build(self, runs: List[Run]) -> Any:
-        """Build the intermediate representation of the block, ready for rendering.
+        """Build the intermediate representation of the block, ready for rendering
+        and export.
 
         Args:
             runs: List of runs to be used for the block.
