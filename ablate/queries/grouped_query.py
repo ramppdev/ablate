@@ -224,8 +224,10 @@ class GroupedQuery:
             case "last":
                 return self.tail(1)
             case "best":
+                assert over is not None
                 return self.topk(over, 1)
             case "worst":
+                assert over is not None
                 return self.bottomk(over, 1)
             case "mean":
                 return Query([self._mean_run(g) for g in self._grouped])
