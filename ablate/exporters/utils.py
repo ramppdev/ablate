@@ -24,16 +24,8 @@ def hash_dataframe(df: pd.DataFrame) -> str:
     return hashlib.md5(df.to_csv(index=False).encode("utf-8")).hexdigest()[:12]
 
 
-def render_metric_plot(
-    block: MetricPlot,
-    runs: List[Run],
-    output_dir: Path,
-) -> str | None:
+def create_metric_plot(df: pd.DataFrame, label: str) -> plt.Figure:
     apply_default_plot_style()
-    df = block.build(runs)
-    if df.empty:
-        return None
-
     fig, ax = plt.subplots()
     sns.lineplot(
         data=df,
@@ -45,9 +37,21 @@ def render_metric_plot(
     )
     ax.set_xlabel("Step")
     ax.set_ylabel("Value")
-    ax.legend(title=block.identifier.label, loc="best", frameon=False)
+    ax.legend(title=label, loc="best", frameon=False)
     plt.tight_layout()
+    return fig
 
+
+def render_metric_plot(
+    block: MetricPlot,
+    runs: List[Run],
+    output_dir: Path,
+) -> str | None:
+    df = block.build(runs)
+    if df.empty:
+        return None
+
+    fig = create_metric_plot(df, block.identifier.label)
     filename = f"{type(block).__name__}_{hash_dataframe(df)}.png"
     fig.savefig(output_dir / filename)
     plt.close(fig)
