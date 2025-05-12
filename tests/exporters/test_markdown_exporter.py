@@ -25,12 +25,12 @@ class DummyBlock:
 
 
 class DummyTextBlock(AbstractTextBlock):
-    def build(self, runs: List[Run]) -> str:
+    def build(self, runs: List[Run]) -> str:  # type: ignore[override]
         return "not supported"
 
 
 class DummyFigureBlock(AbstractFigureBlock):
-    def build(self, runs: List[Run]) -> str:
+    def build(self, runs: List[Run]) -> str:  # type: ignore[override]
         return "not a dataframe"
 
 
@@ -55,7 +55,7 @@ def runs() -> list[Run]:
 def test_export_text_blocks(tmp_path: Path, runs: List[Run]) -> None:
     report = Report(runs).add(H1("Heading 1"), Text("Some paragraph text."))
     out_path = tmp_path / "report.md"
-    Markdown(output_path=out_path).export(report)
+    Markdown(output_path=str(out_path)).export(report)
 
     content = out_path.read_text()
     assert "# Heading 1" in content
@@ -71,7 +71,7 @@ def test_export_table_block(tmp_path: Path, runs: List[Run]) -> None:
     )
     report = Report(runs).add(table)
     out_path = tmp_path / "report.md"
-    Markdown(output_path=out_path).export(report)
+    Markdown(output_path=str(out_path)).export(report)
 
     content = out_path.read_text().replace("\r\n", "\n")
     assert re.search(r"\|\s*Model\s*\|\s*Accuracy\s*\|", content)
@@ -86,7 +86,7 @@ def test_export_figure_block(tmp_path: Path, runs: List[Run]) -> None:
     plot = MetricPlot(Metric("accuracy", direction="max"), identifier=Param("model"))
     report = Report(runs).add(plot)
     out_path = tmp_path / "report.md"
-    exporter = Markdown(output_path=out_path)
+    exporter = Markdown(output_path=str(out_path))
     exporter.export(report)
 
     content = out_path.read_text()
@@ -104,7 +104,7 @@ def test_export_figure_block_empty(tmp_path: Path) -> None:
     plot = MetricPlot(Metric("accuracy", direction="max"), identifier=Param("model"))
     report = Report([empty_run]).add(plot)
     out_path = tmp_path / "report.md"
-    Markdown(output_path=out_path).export(report)
+    Markdown(output_path=str(out_path)).export(report)
 
     content = out_path.read_text()
     assert "*No data available for accuracy*" in content
@@ -112,21 +112,21 @@ def test_export_figure_block_empty(tmp_path: Path) -> None:
 
 def test_unknown_block_raises(tmp_path: Path, runs: List[Run]) -> None:
     report = Report(runs)
-    report += DummyBlock()
+    report += DummyBlock()  # type: ignore[arg-type]
     with pytest.raises(ValueError, match="Unknown block type"):
-        Markdown(output_path=tmp_path / "out.md").export(report)
+        Markdown(output_path=str(tmp_path / "out.md")).export(report)
 
 
 def test_unsupported_figure_block_raises(tmp_path: Path, runs: List[Run]) -> None:
     report = Report(runs).add(DummyFigureBlock())
-    exporter = Markdown(output_path=tmp_path / "out.md")
+    exporter = Markdown(output_path=str(tmp_path / "out.md"))
     with pytest.raises(NotImplementedError, match="Unsupported figure block"):
         exporter.export(report)
 
 
 def test_unsupported_text_block_raises(tmp_path: Path, runs: List[Run]) -> None:
     report = Report(runs).add(DummyTextBlock("oops"))
-    exporter = Markdown(output_path=tmp_path / "out.md")
+    exporter = Markdown(output_path=str(tmp_path / "out.md"))
     with pytest.raises(NotImplementedError, match="Unsupported text block"):
         exporter.export(report)
 
@@ -138,7 +138,7 @@ def test_block_level_runs_override_global(tmp_path: Path, runs: List[Run]) -> No
         Table([Param("model"), Metric("accuracy", "max")], runs=scoped_runs),
     )
     out_path = tmp_path / "report.md"
-    Markdown(output_path=out_path).export(report)
+    Markdown(output_path=str(out_path)).export(report)
     content = out_path.read_text()
     assert "resnet" in content
     assert content.count("resnet") == 1
@@ -147,6 +147,6 @@ def test_block_level_runs_override_global(tmp_path: Path, runs: List[Run]) -> No
 def test_export_heading_variants(tmp_path: Path, runs: List[Run]) -> None:
     report = Report(runs).add(H2("Section Title"))
     out_path = tmp_path / "headings.md"
-    Markdown(output_path=out_path).export(report)
+    Markdown(output_path=str(out_path)).export(report)
     content = out_path.read_text()
     assert "## Section Title" in content

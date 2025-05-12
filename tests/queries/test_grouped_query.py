@@ -63,7 +63,7 @@ def test_aggregate_all_strategies(grouped: GroupedQuery) -> None:
     assert len(grouped.aggregate("mean", over=m).all()) == 2
 
     with pytest.raises(ValueError, match="Unsupported aggregation method"):
-        grouped.aggregate("unsupported", over=m)
+        grouped.aggregate("unsupported", over=m)  # type: ignore[arg-type]
 
 
 def test_aggregate_best_worst_missing_over(grouped: GroupedQuery) -> None:
