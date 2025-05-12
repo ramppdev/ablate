@@ -25,7 +25,7 @@ def test_temporal_data() -> None:
 
 def test_invalid_metrics_type() -> None:
     with pytest.raises(ValidationError):
-        Run(id="bad", params={}, metrics="not a dict")
+        Run(id="bad", params={}, metrics="not a dict")  # type: ignore[arg-type]
 
 
 def test_grouped_run() -> None:
@@ -41,7 +41,7 @@ def test_grouped_run() -> None:
 
 def test_invalid_runs_type() -> None:
     with pytest.raises(ValidationError):
-        GroupedRun(key="group_key", value="group_value", runs=["not a run"])
+        GroupedRun(key="group_key", value="group_value", runs=["not a run"])  # type: ignore[list-item]
 
 
 def test_run_roundtrip_serialization() -> None:

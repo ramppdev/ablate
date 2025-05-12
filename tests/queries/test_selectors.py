@@ -56,7 +56,7 @@ def test_metric_selector(example_run: Run) -> None:
 
 def test_invalid_metric_direction() -> None:
     with pytest.raises(ValueError, match="Invalid direction"):
-        Metric("accuracy", direction="invalid")
+        Metric("accuracy", direction="invalid")  # type: ignore[arg-type]
 
 
 @pytest.mark.parametrize(
@@ -71,7 +71,7 @@ def test_invalid_metric_direction() -> None:
 def test_temporal_metric_selector(
     example_run: Run, reduction: str, expected: float
 ) -> None:
-    selector = TemporalMetric("accuracy", direction="max", reduction=reduction)
+    selector = TemporalMetric("accuracy", direction="max", reduction=reduction)  # type: ignore[arg-type]
     assert selector(example_run) == expected
 
 
@@ -82,4 +82,4 @@ def test_temporal_metric_missing_returns_nan(example_run: Run) -> None:
 
 def test_temporal_metric_invalid_reduction() -> None:
     with pytest.raises(ValueError, match="Invalid reduction method"):
-        TemporalMetric("accuracy", direction="max", reduction="median")
+        TemporalMetric("accuracy", direction="max", reduction="median")  # type: ignore[arg-type]
