@@ -64,6 +64,31 @@ class Query:
         """
         return Query(sorted(self._runs[:], key=key, reverse=not ascending))
 
+    def project(self, selectors: Union[AbstractParam, List[AbstractParam]]) -> Query:
+        """Project the parameter space of the runs in the query to a subset of
+        parameters only including the specified selectors.
+
+        This function is intended to be used for reducing the dimensionality of the
+        parameter space and therefore operates on a deep copy of the runs in the query.
+
+        Args:
+            selectors: Selector or list of selectors to project the runs by.
+
+        Returns:
+            A new query with the projected runs.
+        """
+        if not isinstance(selectors, list):
+            selectors = [selectors]
+
+        names = {s.name for s in selectors}
+        projected: List[Run] = []
+
+        for run in deepcopy(self._runs):
+            run.params = {k: v for k, v in run.params.items() if k in names}
+            projected.append(run)
+
+        return Query(projected)
+
     def groupby(
         self,
         selectors: Union[AbstractParam, List[AbstractParam]],
