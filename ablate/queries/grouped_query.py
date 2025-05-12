@@ -158,7 +158,7 @@ class GroupedQuery:
     def aggregate(
         self,
         method: Literal["first", "last", "best", "worst", "mean"],
-        over: AbstractMetric,
+        over: AbstractMetric | None = None,
     ) -> Query:
         """Aggregate each group of runs using a specified method.
 
@@ -172,13 +172,21 @@ class GroupedQuery:
         Args:
             method: Aggregation strategy to apply per group.
             over: The metric used for comparison when using "best" or "worst" methods.
+                Has no effect for "first", "last", or "mean" methods.
+                Defaults to None.
 
         Raises:
-            ValueError: If an unsupported aggregation method is provided.
+            ValueError: If an unsupported aggregation method is provided or if the
+                "best" or "worst" method is used without a specified metric.
+
 
         Returns:
             A new query with the aggregated runs from each group.
         """
+        if method in {"best", "worst"} and over is None:
+            raise ValueError(
+                f"Method '{method}' requires a metric to be specified for comparison."
+            )
         from .query import Query
 
         match method:
