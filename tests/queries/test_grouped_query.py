@@ -66,6 +66,13 @@ def test_aggregate_all_strategies(grouped: GroupedQuery) -> None:
         grouped.aggregate("unsupported", over=m)
 
 
+def test_aggregate_best_worst_missing_over(grouped: GroupedQuery) -> None:
+    with pytest.raises(ValueError, match="Method 'best' requires a metric"):
+        grouped.aggregate("best")
+    with pytest.raises(ValueError, match="Method 'worst' requires a metric"):
+        grouped.aggregate("worst")
+
+
 def test_aggregate_mean_collapses_metadata_and_temporal() -> None:
     run1 = Run(
         id="a",
