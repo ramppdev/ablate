@@ -96,7 +96,7 @@ def test_query_len(runs: List[Run]) -> None:
 
 
 def test_project_reduces_parameter_space(runs: List[Run]) -> None:
-    q = Query(runs).project([Param("model")])
+    q = Query(runs).project(Param("model"))
     for run in q.all():
         assert set(run.params.keys()) == {"model"}
         assert set(run.metrics.keys()) == {"accuracy"}
