@@ -1,11 +1,12 @@
 import hashlib
 from pathlib import Path
+from typing import List
 
 import matplotlib.pyplot as plt
-import pandas as pd
 import seaborn as sns
 
-from ablate.blocks import H1, H2, H3, H4, H5, H6
+from ablate.blocks import H1, H2, H3, H4, H5, H6, MetricPlot
+from ablate.core.types.runs import Run
 
 
 HEADING_LEVELS = {H1: 1, H2: 2, H3: 3, H4: 4, H5: 5, H6: 6}
@@ -19,11 +20,12 @@ def apply_default_plot_style() -> None:
 
 
 def render_metric_plot(
-    df: pd.DataFrame,
+    block: MetricPlot,
+    runs: List[Run],
     output_dir: Path,
-    name_prefix: str,
 ) -> str | None:
     apply_default_plot_style()
+    df = block.build(runs)
     if df.empty:
         return None
 
@@ -38,11 +40,11 @@ def render_metric_plot(
     )
     ax.set_xlabel("Step")
     ax.set_ylabel("Value")
-    ax.legend(title="Run", loc="best", frameon=False)
+    ax.legend(title=block.identifier.label, loc="best", frameon=False)
     plt.tight_layout()
 
     h = hashlib.md5(df.to_csv(index=False).encode("utf-8")).hexdigest()[:12]
-    filename = f"{name_prefix}_{h}.png"
+    filename = f"{type(block).__name__}_{h}.png"
     fig.savefig(output_dir / filename)
     plt.close(fig)
     return filename
