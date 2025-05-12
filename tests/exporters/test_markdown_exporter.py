@@ -150,3 +150,40 @@ def test_export_heading_variants(tmp_path: Path, runs: List[Run]) -> None:
     Markdown(output_path=str(out_path)).export(report)
     content = out_path.read_text()
     assert "## Section Title" in content
+
+
+def test_export_table_block_with_csv(tmp_path: Path, runs: List[Run]) -> None:
+    table = Table(
+        columns=[Param("model"), Metric("accuracy", direction="max")],
+    )
+    report = Report(runs).add(table)
+    out_path = tmp_path / "report.md"
+    exporter = Markdown(output_path=str(out_path), export_csv=True)
+    exporter.export(report)
+
+    content = out_path.read_text()
+    assert "resnet" in content
+    asset_dir = tmp_path / ".ablate"
+    csv_files = list(asset_dir.glob("Table_*.csv"))
+    assert len(csv_files) == 1
+    csv_content = csv_files[0].read_text()
+    assert "model,accuracy" in csv_content
+    assert "resnet,0.8" in csv_content
+
+
+def test_export_figure_block_with_csv(tmp_path: Path, runs: List[Run]) -> None:
+    plot = MetricPlot(Metric("accuracy", direction="max"), identifier=Param("model"))
+    report = Report(runs).add(plot)
+    out_path = tmp_path / "report.md"
+    exporter = Markdown(output_path=str(out_path), export_csv=True)
+    exporter.export(report)
+
+    asset_dir = tmp_path / ".ablate"
+    png_files = list(asset_dir.glob("MetricPlot_*.png"))
+    assert len(png_files) == 1
+    csv_files = list(asset_dir.glob("MetricPlot_*.csv"))
+    assert len(csv_files) == 1
+    csv_content = csv_files[0].read_text()
+    assert "step,value,metric,run,run_id" in csv_content
+    assert "0,0.5,accuracy,resnet,run1" in csv_content
+    assert "1,0.9,accuracy,resnet,run2" in csv_content
