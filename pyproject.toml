@@ -86,3 +86,8 @@ testpaths = "tests"
 
 [tool.codespell]
 skip = "uv.lock"
+
+[tool.mypy]
+files = ["ablate", "tests"]
+explicit_package_bases = true
+ignore_missing_imports = true
