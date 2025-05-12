@@ -5,33 +5,17 @@ from typing import List
 import matplotlib.pyplot as plt
 import pytest
 
-from ablate.blocks import (
-    H1,
-    H2,
-    AbstractFigureBlock,
-    AbstractTextBlock,
-    MetricPlot,
-    Table,
-    Text,
-)
+from ablate.blocks import H1, H2, MetricPlot, Table, Text
 from ablate.core.types import Run
 from ablate.exporters import Markdown
 from ablate.queries import Metric, Param
 from ablate.report import Report
 
+from .utils import DummyFigureBlock, DummyTextBlock
+
 
 class DummyBlock:
     pass
-
-
-class DummyTextBlock(AbstractTextBlock):
-    def build(self, runs: List[Run]) -> str:  # type: ignore[override]
-        return "not supported"
-
-
-class DummyFigureBlock(AbstractFigureBlock):
-    def build(self, runs: List[Run]) -> str:  # type: ignore[override]
-        return "not a dataframe"
 
 
 @pytest.fixture
