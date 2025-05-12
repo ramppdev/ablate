@@ -2,14 +2,14 @@ from __future__ import annotations
 
 from collections import defaultdict
 from copy import deepcopy
-from typing import TYPE_CHECKING, Callable, Dict, List, Literal
+from typing import TYPE_CHECKING, Callable, Dict, List, Literal, Union
 
 from ablate.core.types import GroupedRun, Run
 
 
 if TYPE_CHECKING:  # pragma: no cover
     from .query import Query  # noqa: TC004
-    from .selectors import AbstractMetric
+    from .selectors import AbstractMetric, AbstractParam
 
 
 class GroupedQuery:
@@ -74,6 +74,35 @@ class GroupedQuery:
                 for g in self._grouped
             ]
         )
+
+    def project(
+        self, selectors: Union[AbstractParam, List[AbstractParam]]
+    ) -> GroupedQuery:
+        """Project the parameter space of the grouped runs in the grouped query to a
+        subset of parameters only including the specified selectors.
+
+        This function is intended to be used for reducing the dimensionality of the
+        parameter space and therefore operates on a deep copy of the grouped runs in the
+        grouped query.
+
+        Args:
+            selectors: Selector or list of selectors to project the grouped runs by.
+
+        Returns:
+            A new grouped query with the projected grouped runs.
+        """
+        if not isinstance(selectors, list):
+            selectors = [selectors]
+
+        names = {s.name for s in selectors}
+        projected: List[GroupedRun] = []
+
+        for group in deepcopy(self._grouped):
+            for run in group.runs:
+                run.params = {k: v for k, v in run.params.items() if k in names}
+            projected.append(group)
+
+        return GroupedQuery(projected)
 
     def head(self, n: int) -> Query:
         """Get the first n runs inside each grouped run.
@@ -195,8 +224,10 @@ class GroupedQuery:
             case "last":
                 return self.tail(1)
             case "best":
+                assert over is not None
                 return self.topk(over, 1)
             case "worst":
+                assert over is not None
                 return self.bottomk(over, 1)
             case "mean":
                 return Query([self._mean_run(g) for g in self._grouped])

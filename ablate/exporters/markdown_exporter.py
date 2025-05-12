@@ -57,11 +57,7 @@ class Markdown(AbstractExporter):
         if not isinstance(block, MetricPlot):
             raise NotImplementedError(f"Unsupported figure block: '{type(block)}'.")
 
-        filename = render_metric_plot(
-            block.build(runs),
-            self.assets_dir,
-            type(block).__name__,
-        )
+        filename = render_metric_plot(block, runs, self.assets_dir)
         if filename is None:
             return (
                 f"*No data available for {', '.join(m.label for m in block.metrics)}*"

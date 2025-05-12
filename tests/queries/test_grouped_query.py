@@ -111,3 +111,11 @@ def test_copy_and_deepcopy(grouped: GroupedQuery) -> None:
     assert all(
         dr is not gr for dr, gr in zip(deep._grouped, grouped._grouped, strict=False)
     )
+
+
+def test_grouped_query_project_reduces_param_space(grouped: GroupedQuery) -> None:
+    grouped = grouped.project(Param("model"))
+    for group in grouped._grouped:
+        for run in group.runs:
+            assert set(run.params.keys()) == {"model"}
+            assert set(run.metrics.keys()) == {"accuracy"}
