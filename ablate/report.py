@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, List
 from typing_extensions import Self
 
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no cover
     from ablate.blocks import AbstractBlock
     from ablate.core.types import Run
 
