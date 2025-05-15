@@ -38,9 +38,7 @@ def test_table_block() -> None:
 
 
 def test_metric_plot_single() -> None:
-    plot = MetricPlot(
-        metric=Metric("accuracy", direction="max"), identifier=Param("seed")
-    )
+    plot = MetricPlot(Metric("accuracy", direction="max"), identifier=Param("seed"))
     df = plot.build(make_runs())
     assert isinstance(df, pd.DataFrame)
     assert set(df.columns) >= {"step", "value", "metric", "run", "run_id"}
@@ -48,9 +46,7 @@ def test_metric_plot_single() -> None:
 
 
 def test_metric_plot_multi() -> None:
-    plot = MetricPlot(
-        metric=[Metric("accuracy", direction="max")], identifier=Param("seed")
-    )
+    plot = MetricPlot([Metric("accuracy", direction="max")], identifier=Param("seed"))
     df = plot.build(make_runs())
     assert isinstance(df, pd.DataFrame)
     assert all(k in df.columns for k in ["step", "value", "metric", "run"])
