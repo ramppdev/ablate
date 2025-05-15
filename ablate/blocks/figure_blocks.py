@@ -29,7 +29,7 @@ class MetricPlot(AbstractFigureBlock):
         """Block for plotting metrics over time.
 
         Args:
-            metric: Metric or list of metrics to be plotted over time.
+            metrics: Metric or list of metrics to be plotted over time.
             identifier: Optional identifier for the runs. If None, the run ID is used.
                 Defaults to None.
             runs: Optional list of runs to be used for the block instead of the default
