@@ -22,7 +22,7 @@ class AbstractFigureBlock(AbstractBlock, ABC):
 class MetricPlot(AbstractFigureBlock):
     def __init__(
         self,
-        metric: AbstractMetric | List[AbstractMetric],
+        metrics: AbstractMetric | List[AbstractMetric],
         identifier: Param | None = None,
         runs: List[Run] | None = None,
     ) -> None:
@@ -36,7 +36,7 @@ class MetricPlot(AbstractFigureBlock):
                 runs from the report. Defaults to None.
         """
         super().__init__(runs)
-        self.metrics = metric if isinstance(metric, list) else [metric]
+        self.metrics = metrics if isinstance(metrics, list) else [metrics]
         self.identifier = identifier or Id()
 
     def build(self, runs: List[Run]) -> pd.DataFrame:
