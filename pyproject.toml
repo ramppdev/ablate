@@ -1,7 +1,7 @@
 [project]
 name = "ablate"
 version = "0.1.0"
-description = "ablate"
+description = "Turn experiments into notes."
 authors = [{ name = "Simon Rampp", email = "simon@rampp.dev" }]
 license = { text = "MIT" }
 readme = "README.md"
