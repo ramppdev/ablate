@@ -16,7 +16,8 @@ class AbstractExporter(ABC):
     def export(self, report: Report) -> None:
         """Export the report.
 
-        Should call the `render_blocks` to generate the content of the report.
+        Should call :meth:`~ablate.exporters.AbstractExporter.render_blocks` to generate
+        the content of the report.
 
         Args:
             report: The report to be exported.
