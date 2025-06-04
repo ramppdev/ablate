@@ -16,7 +16,7 @@ class ClearML(AbstractSource):
             ImportError: If the `clearml` package is not installed.
         """
         try:
-            from clearml import Task
+            from clearml import Task  # noqa: F401
         except ImportError as e:
             raise ImportError(
                 "ClearML source requires `clearml`. "

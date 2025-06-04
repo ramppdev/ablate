@@ -16,4 +16,7 @@ repos:
     hooks:
       - id: mypy
         args: ["--config-file=pyproject.toml"]
-        language: system
+        additional_dependencies:
+          - pandas-stubs
+          - types-pyyaml
+          - types-seaborn
