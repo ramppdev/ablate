@@ -8,11 +8,16 @@ from .abstract_source import AbstractSource
 
 
 class MLflow(AbstractSource):
-    def __init__(self, experiment_names: List[str], tracking_uri: str | None) -> None:
+    def __init__(
+        self,
+        experiment_names: str | List[str],
+        tracking_uri: str | None,
+    ) -> None:
         """MLflow source for loading runs from a MLflow server.
 
         Args:
-            experiment_names: A list of experiment names to load runs from.
+            experiment_names: An experiment name or a list of experiment names to load
+                runs from.
             tracking_uri: The URI or local path to the MLflow tracking server.
                 If None, use the default tracking URI set in the MLflow configuration.
                 Defaults to None.
@@ -25,11 +30,15 @@ class MLflow(AbstractSource):
         except ImportError as e:
             raise ImportError(
                 "MLflow source requires `mlflow`. "
-                "Please install with `pip install ablate[mlflow]`."
+                "Install via `pip install ablate[mlflow]`."
             ) from e
 
         self.tracking_uri = tracking_uri
-        self.experiment_names = experiment_names
+        self.experiment_names = (
+            [experiment_names]
+            if isinstance(experiment_names, str)
+            else experiment_names
+        )
         if not tracking_uri:
             self.client = MlflowClient()
             return

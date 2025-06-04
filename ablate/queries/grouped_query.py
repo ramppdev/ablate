@@ -192,12 +192,15 @@ class GroupedQuery:
         """Aggregate each group of runs using a specified method.
 
         Supported methods include:
-          - "first": Selects the first run from each group.
-          - "last": Selects the last run from each group.
-          - "best": Selects the run with the best value based on the given metric.
-          - "worst": Selects the run with the worst value based on the given metric.
-          - "mean": Computes the mean run across all runs in each group, including
-                averaged metrics and temporal data, and collapsed metadata.
+          * :attr:`"first"`: Selects the first run from each group.
+          * :attr:`"last"`: Selects the last run from each group.
+          * :attr:`"best"`: Selects the run with the best value based on the given
+            metric.
+          * :attr:`"worst"`: Selects the run with the worst value based on the given
+            metric.
+          * :attr:`"mean"`: Computes the mean run across all runs in each group,
+            including averaged metrics and temporal data, and collapsed metadata.
+
         Args:
             method: Aggregation strategy to apply per group.
             over: The metric used for comparison when using "best" or "worst" methods.

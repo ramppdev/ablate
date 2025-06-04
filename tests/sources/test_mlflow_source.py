@@ -38,7 +38,7 @@ def test_mlflow_uri_resolution(
     mock_client.search_runs.return_value = [mock_run]
     mock_client.get_metric_history.return_value = [SimpleNamespace(step=1, value=0.9)]
 
-    source = MLflow(tracking_uri=tracking_uri, experiment_names=["default"])
+    source = MLflow(tracking_uri=tracking_uri, experiment_names="default")
     runs = source.load()
 
     if expected_uri_startswith is None:
@@ -54,11 +54,9 @@ def test_mlflow_uri_resolution(
     assert r.temporal == {"accuracy": [(1, 0.9)]}
 
 
+@patch.dict("sys.modules", {"mlflow.tracking": None})
 def test_import_error_if_mlflow_not_installed() -> None:
-    with (
-        patch.dict("sys.modules", {"mlflow.tracking": None}),
-        pytest.raises(ImportError, match="MLflow source requires `mlflow`"),
-    ):
+    with pytest.raises(ImportError, match="MLflow source requires `mlflow`"):
         MLflow(tracking_uri="/fake", experiment_names=["exp"])
 
 

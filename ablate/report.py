@@ -23,6 +23,9 @@ class Report:
     def add(self, *blocks: AbstractBlock) -> Self:
         """Add one or more blocks to the report.
 
+        Args:
+            blocks: One or more blocks to be added to the report.
+
         Returns:
             The updated report with the added blocks.
         """
