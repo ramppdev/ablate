@@ -43,7 +43,7 @@
 
     <script src="../_static/jquery.js?v=5d32c60e"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../_static/documentation_options.js?v=a58bc63e"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -317,19 +317,295 @@
                   
   <section id="exporters">
 <span id="id1"></span><h1>Exporters<a class="headerlink" href="#exporters" title="Link to this heading">#</a></h1>
-<p>Exporters are responsible for converting a <code class="xref py py-class docutils literal notranslate"><span class="pre">Report</span></code> into a target format such as <code class="xref py py-class docutils literal notranslate"><span class="pre">Markdown</span></code>.</p>
+<p>Exporters are responsible for converting a <a class="reference internal" href="reports.html#ablate.Report" title="ablate.Report"><code class="xref py py-class docutils literal notranslate"><span class="pre">Report</span></code></a> into a target format such as <a class="reference internal" href="#ablate.exporters.Markdown" title="ablate.exporters.Markdown"><code class="xref py py-class docutils literal notranslate"><span class="pre">Markdown</span></code></a>.</p>
 <p>Multiple exporters can be used interchangeably to render the same report in different formats.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>To create custom exporters, inherit from <code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractExporter</span></code> and implement the
-<code class="xref py py-meth docutils literal notranslate"><span class="pre">render_text()</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">render_table()</span></code>,
-<code class="xref py py-meth docutils literal notranslate"><span class="pre">render_figure()</span></code>, and <code class="xref py py-meth docutils literal notranslate"><span class="pre">export()</span></code> methods.</p>
+<p>To create custom exporters, inherit from <a class="reference internal" href="#ablate.exporters.AbstractExporter" title="ablate.exporters.AbstractExporter"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractExporter</span></code></a> and implement the
+<a class="reference internal" href="#ablate.exporters.AbstractExporter.render_text" title="ablate.exporters.AbstractExporter.render_text"><code class="xref py py-meth docutils literal notranslate"><span class="pre">render_text()</span></code></a>, <a class="reference internal" href="#ablate.exporters.AbstractExporter.render_table" title="ablate.exporters.AbstractExporter.render_table"><code class="xref py py-meth docutils literal notranslate"><span class="pre">render_table()</span></code></a>,
+<a class="reference internal" href="#ablate.exporters.AbstractExporter.render_figure" title="ablate.exporters.AbstractExporter.render_figure"><code class="xref py py-meth docutils literal notranslate"><span class="pre">render_figure()</span></code></a>, and <a class="reference internal" href="#ablate.exporters.AbstractExporter.export" title="ablate.exporters.AbstractExporter.export"><code class="xref py py-meth docutils literal notranslate"><span class="pre">export()</span></code></a> methods.</p>
 </div>
 <section id="abstract-exporter">
 <h2>Abstract Exporter<a class="headerlink" href="#abstract-exporter" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.exporters.AbstractExporter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.exporters.</span></span><span class="sig-name descname"><span class="pre">AbstractExporter</span></span><a class="reference internal" href="../_modules/ablate/exporters/abstract_exporter.html#AbstractExporter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.exporters.AbstractExporter" title="Link to this definition">#</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="ablate.exporters.AbstractExporter.export">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">export</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">report</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/exporters/abstract_exporter.html#AbstractExporter.export"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.exporters.AbstractExporter.export" title="Link to this definition">#</a></dt>
+<dd><p>Export the report.</p>
+<p>Should call <a class="reference internal" href="#ablate.exporters.AbstractExporter.render_blocks" title="ablate.exporters.AbstractExporter.render_blocks"><code class="xref py py-meth docutils literal notranslate"><span class="pre">render_blocks()</span></code></a> to generate
+the content of the report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>report</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="reports.html#ablate.Report" title="ablate.report.Report"><code class="xref py py-class docutils literal notranslate"><span class="pre">Report</span></code></a></span>) – The report to be exported.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.exporters.AbstractExporter.render_blocks">
+<span class="sig-name descname"><span class="pre">render_blocks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">report</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/exporters/abstract_exporter.html#AbstractExporter.render_blocks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.exporters.AbstractExporter.render_blocks" title="Link to this definition">#</a></dt>
+<dd><p>Render a blocks of the report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>report</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="reports.html#ablate.Report" title="ablate.report.Report"><code class="xref py py-class docutils literal notranslate"><span class="pre">Report</span></code></a></span>) – The report to be rendered.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the block type is not supported.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]</span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of rendered blocks.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.exporters.AbstractExporter.render_text">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">render_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/exporters/abstract_exporter.html#AbstractExporter.render_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.exporters.AbstractExporter.render_text" title="Link to this definition">#</a></dt>
+<dd><p>Render a text block.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>block</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="blocks.html#ablate.blocks.AbstractTextBlock" title="ablate.blocks.text_blocks.AbstractTextBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractTextBlock</span></code></a></span>) – The text block to be rendered.</p></li>
+<li><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]</span>) – The list of runs to be used for the block.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The rendered text block.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.exporters.AbstractExporter.render_table">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">render_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/exporters/abstract_exporter.html#AbstractExporter.render_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.exporters.AbstractExporter.render_table" title="Link to this definition">#</a></dt>
+<dd><p>Render a table block.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>block</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="blocks.html#ablate.blocks.AbstractTableBlock" title="ablate.blocks.table_blocks.AbstractTableBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractTableBlock</span></code></a></span>) – The table block to be rendered.</p></li>
+<li><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]</span>) – The list of runs to be used for the block.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The rendered table block.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.exporters.AbstractExporter.render_figure">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">render_figure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/exporters/abstract_exporter.html#AbstractExporter.render_figure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.exporters.AbstractExporter.render_figure" title="Link to this definition">#</a></dt>
+<dd><p>Render a figure block.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>block</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="blocks.html#ablate.blocks.AbstractFigureBlock" title="ablate.blocks.figure_blocks.AbstractFigureBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractFigureBlock</span></code></a></span>) – The figure block to be rendered.</p></li>
+<li><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]</span>) – The list of runs to be used for the block.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The rendered figure block.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="report-exporters">
 <h2>Report Exporters<a class="headerlink" href="#report-exporters" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.exporters.Markdown">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.exporters.</span></span><span class="sig-name descname"><span class="pre">Markdown</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'report.md'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assets_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">export_csv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/exporters/markdown_exporter.html#Markdown"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.exporters.Markdown" title="Link to this definition">#</a></dt>
+<dd><p>Export the report as a markdown file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_path</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The path to the output markdown file. Defaults to “report.md”.</p></li>
+<li><p><strong>assets_dir</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – The directory to store the assets (figures, etc.). If None,
+defaults to the parent directory of the output file with a “.ablate”
+subdirectory. Defaults to None.</p></li>
+<li><p><strong>export_csv</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>) – Whether to export tables and plots as CSV files.
+Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.exporters.Markdown.export">
+<span class="sig-name descname"><span class="pre">export</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">report</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/exporters/markdown_exporter.html#Markdown.export"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.exporters.Markdown.export" title="Link to this definition">#</a></dt>
+<dd><p>Export the report.</p>
+<p>Should call <a class="reference internal" href="#ablate.exporters.AbstractExporter.render_blocks" title="ablate.exporters.AbstractExporter.render_blocks"><code class="xref py py-meth docutils literal notranslate"><span class="pre">render_blocks()</span></code></a> to generate
+the content of the report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>report</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="reports.html#ablate.Report" title="ablate.report.Report"><code class="xref py py-class docutils literal notranslate"><span class="pre">Report</span></code></a></span>) – The report to be exported.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.exporters.Markdown.render_text">
+<span class="sig-name descname"><span class="pre">render_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/exporters/markdown_exporter.html#Markdown.render_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.exporters.Markdown.render_text" title="Link to this definition">#</a></dt>
+<dd><p>Render a text block.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>block</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="blocks.html#ablate.blocks.AbstractTextBlock" title="ablate.blocks.text_blocks.AbstractTextBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractTextBlock</span></code></a></span>) – The text block to be rendered.</p></li>
+<li><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]</span>) – The list of runs to be used for the block.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The rendered text block.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.exporters.Markdown.render_table">
+<span class="sig-name descname"><span class="pre">render_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/exporters/markdown_exporter.html#Markdown.render_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.exporters.Markdown.render_table" title="Link to this definition">#</a></dt>
+<dd><p>Render a table block.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>block</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="blocks.html#ablate.blocks.AbstractTableBlock" title="ablate.blocks.table_blocks.AbstractTableBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractTableBlock</span></code></a></span>) – The table block to be rendered.</p></li>
+<li><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]</span>) – The list of runs to be used for the block.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The rendered table block.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.exporters.Markdown.render_figure">
+<span class="sig-name descname"><span class="pre">render_figure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/exporters/markdown_exporter.html#Markdown.render_figure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.exporters.Markdown.render_figure" title="Link to this definition">#</a></dt>
+<dd><p>Render a figure block.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>block</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="blocks.html#ablate.blocks.AbstractFigureBlock" title="ablate.blocks.figure_blocks.AbstractFigureBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractFigureBlock</span></code></a></span>) – The figure block to be rendered.</p></li>
+<li><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]</span>) – The list of runs to be used for the block.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The rendered figure block.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.exporters.Notebook">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.exporters.</span></span><span class="sig-name descname"><span class="pre">Notebook</span></span><a class="reference internal" href="../_modules/ablate/exporters/notebook_exporter.html#Notebook"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.exporters.Notebook" title="Link to this definition">#</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="ablate.exporters.Notebook.export">
+<span class="sig-name descname"><span class="pre">export</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">report</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/exporters/notebook_exporter.html#Notebook.export"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.exporters.Notebook.export" title="Link to this definition">#</a></dt>
+<dd><p>Export the report.</p>
+<p>Should call <a class="reference internal" href="#ablate.exporters.AbstractExporter.render_blocks" title="ablate.exporters.AbstractExporter.render_blocks"><code class="xref py py-meth docutils literal notranslate"><span class="pre">render_blocks()</span></code></a> to generate
+the content of the report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>report</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="reports.html#ablate.Report" title="ablate.report.Report"><code class="xref py py-class docutils literal notranslate"><span class="pre">Report</span></code></a></span>) – The report to be exported.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.exporters.Notebook.render_text">
+<span class="sig-name descname"><span class="pre">render_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/exporters/notebook_exporter.html#Notebook.render_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.exporters.Notebook.render_text" title="Link to this definition">#</a></dt>
+<dd><p>Render a text block.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>block</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="blocks.html#ablate.blocks.AbstractTextBlock" title="ablate.blocks.text_blocks.AbstractTextBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractTextBlock</span></code></a></span>) – The text block to be rendered.</p></li>
+<li><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]</span>) – The list of runs to be used for the block.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The rendered text block.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.exporters.Notebook.render_table">
+<span class="sig-name descname"><span class="pre">render_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/exporters/notebook_exporter.html#Notebook.render_table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.exporters.Notebook.render_table" title="Link to this definition">#</a></dt>
+<dd><p>Render a table block.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>block</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="blocks.html#ablate.blocks.AbstractTableBlock" title="ablate.blocks.table_blocks.AbstractTableBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractTableBlock</span></code></a></span>) – The table block to be rendered.</p></li>
+<li><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]</span>) – The list of runs to be used for the block.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The rendered table block.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.exporters.Notebook.render_figure">
+<span class="sig-name descname"><span class="pre">render_figure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">block</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/exporters/notebook_exporter.html#Notebook.render_figure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.exporters.Notebook.render_figure" title="Link to this definition">#</a></dt>
+<dd><p>Render a figure block.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>block</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="blocks.html#ablate.blocks.AbstractFigureBlock" title="ablate.blocks.figure_blocks.AbstractFigureBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractFigureBlock</span></code></a></span>) – The figure block to be rendered.</p></li>
+<li><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]</span>) – The list of runs to be used for the block.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The rendered figure block.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 
@@ -356,8 +632,34 @@
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract-exporter">Abstract Exporter</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#report-exporters">Report Exporters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract-exporter">Abstract Exporter</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.exporters.AbstractExporter"><code class="docutils literal notranslate"><span class="pre">AbstractExporter</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.exporters.AbstractExporter.export"><code class="docutils literal notranslate"><span class="pre">AbstractExporter.export()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.exporters.AbstractExporter.render_blocks"><code class="docutils literal notranslate"><span class="pre">AbstractExporter.render_blocks()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.exporters.AbstractExporter.render_text"><code class="docutils literal notranslate"><span class="pre">AbstractExporter.render_text()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.exporters.AbstractExporter.render_table"><code class="docutils literal notranslate"><span class="pre">AbstractExporter.render_table()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.exporters.AbstractExporter.render_figure"><code class="docutils literal notranslate"><span class="pre">AbstractExporter.render_figure()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#report-exporters">Report Exporters</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.exporters.Markdown"><code class="docutils literal notranslate"><span class="pre">Markdown</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.exporters.Markdown.export"><code class="docutils literal notranslate"><span class="pre">Markdown.export()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.exporters.Markdown.render_text"><code class="docutils literal notranslate"><span class="pre">Markdown.render_text()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.exporters.Markdown.render_table"><code class="docutils literal notranslate"><span class="pre">Markdown.render_table()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.exporters.Markdown.render_figure"><code class="docutils literal notranslate"><span class="pre">Markdown.render_figure()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.exporters.Notebook"><code class="docutils literal notranslate"><span class="pre">Notebook</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.exporters.Notebook.export"><code class="docutils literal notranslate"><span class="pre">Notebook.export()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.exporters.Notebook.render_text"><code class="docutils literal notranslate"><span class="pre">Notebook.render_text()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.exporters.Notebook.render_table"><code class="docutils literal notranslate"><span class="pre">Notebook.render_table()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.exporters.Notebook.render_figure"><code class="docutils literal notranslate"><span class="pre">Notebook.render_figure()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

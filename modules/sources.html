@@ -43,7 +43,7 @@
 
     <script src="../_static/jquery.js?v=5d32c60e"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../_static/documentation_options.js?v=a58bc63e"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -318,22 +318,226 @@
   <section id="sources">
 <span id="id1"></span><h1>Sources<a class="headerlink" href="#sources" title="Link to this heading">#</a></h1>
 <p>Sources are responsible for loading experiment runs from various deep learning experiment tracking tools or logs.
-Each source loads a list of <code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code> objects containing parameters, metrics, and optional temporal data
-using the <code class="xref py py-meth docutils literal notranslate"><span class="pre">load()</span></code> method.</p>
+Each source loads a list of <a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a> objects containing parameters, metrics, and optional temporal data
+using the <a class="reference internal" href="#ablate.sources.AbstractSource.load" title="ablate.sources.AbstractSource.load"><code class="xref py py-meth docutils literal notranslate"><span class="pre">load()</span></code></a> method.</p>
 <p>Loaded runs be combined using the <code class="xref py py-attr docutils literal notranslate"><span class="pre">+</span></code> operator to merge multiple sources into a single list of runs.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>To create custom sources, inherit from <code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractSource</span></code>
-and implement the <code class="xref py py-meth docutils literal notranslate"><span class="pre">load()</span></code> method.</p>
+<p>To create custom sources, inherit from <a class="reference internal" href="#ablate.sources.AbstractSource" title="ablate.sources.AbstractSource"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractSource</span></code></a>
+and implement the <a class="reference internal" href="#ablate.sources.AbstractSource.load" title="ablate.sources.AbstractSource.load"><code class="xref py py-meth docutils literal notranslate"><span class="pre">load()</span></code></a> method.</p>
 </div>
 <section id="abstract-source">
 <h2>Abstract Source<a class="headerlink" href="#abstract-source" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.sources.AbstractSource">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.sources.</span></span><span class="sig-name descname"><span class="pre">AbstractSource</span></span><a class="reference internal" href="../_modules/ablate/sources/abstract_source.html#AbstractSource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.sources.AbstractSource" title="Link to this definition">#</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="ablate.sources.AbstractSource.load">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/sources/abstract_source.html#AbstractSource.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.sources.AbstractSource.load" title="Link to this definition">#</a></dt>
+<dd><p>Load the data from the source.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of runs with their parameters, metrics, and optionally temporal data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="experiment-sources">
 <h2>Experiment Sources<a class="headerlink" href="#experiment-sources" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.sources.Autrainer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.sources.</span></span><span class="sig-name descname"><span class="pre">Autrainer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/sources/autrainer_source.html#Autrainer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.sources.Autrainer" title="Link to this definition">#</a></dt>
+<dd><p>Autrainer source for loading runs from an autrainer experiment.</p>
+<p>Analogous to <cite>autrainer</cite>, all metrics are reported at the iteration where the
+tracking metric reaches its best development value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>results_dir</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The directory where autrainer results are stored.</p></li>
+<li><p><strong>experiment_id</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The ID of the autrainer experiment to load.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>FileNotFoundError</strong> – If the specified experiment ID does not exist in the
+    results directory.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.sources.Autrainer.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/sources/autrainer_source.html#Autrainer.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.sources.Autrainer.load" title="Link to this definition">#</a></dt>
+<dd><p>Load the data from the source.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of runs with their parameters, metrics, and optionally temporal data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.sources.ClearML">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.sources.</span></span><span class="sig-name descname"><span class="pre">ClearML</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/sources/clearml_source.html#ClearML"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.sources.ClearML" title="Link to this definition">#</a></dt>
+<dd><p>ClearML source for loading runs from a ClearML server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>project_name</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The name of the ClearML project to load runs from.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ImportError</strong> – If the <cite>clearml</cite> package is not installed.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.sources.ClearML.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/sources/clearml_source.html#ClearML.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.sources.ClearML.load" title="Link to this definition">#</a></dt>
+<dd><p>Load the data from the source.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of runs with their parameters, metrics, and optionally temporal data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.sources.MLflow">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.sources.</span></span><span class="sig-name descname"><span class="pre">MLflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiment_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tracking_uri</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/sources/mlflow_source.html#MLflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.sources.MLflow" title="Link to this definition">#</a></dt>
+<dd><p>MLflow source for loading runs from a MLflow server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>experiment_names</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]</span>) – An experiment name or a list of experiment names to load
+runs from.</p></li>
+<li><p><strong>tracking_uri</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code> | <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span>) – The URI or local path to the MLflow tracking server.
+If None, use the default tracking URI set in the MLflow configuration.
+Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ImportError</strong> – If the <cite>mlflow</cite> package is not installed.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.sources.MLflow.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/sources/mlflow_source.html#MLflow.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.sources.MLflow.load" title="Link to this definition">#</a></dt>
+<dd><p>Load the data from the source.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of runs with their parameters, metrics, and optionally temporal data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.sources.TensorBoard">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.sources.</span></span><span class="sig-name descname"><span class="pre">TensorBoard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logdirs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/sources/tensorboard_source.html#TensorBoard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.sources.TensorBoard" title="Link to this definition">#</a></dt>
+<dd><p>TensorBoard source for loading runs from event logs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>logdirs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]]</span>) – A path or list of paths to TensorBoard event log directories.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.sources.TensorBoard.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/sources/tensorboard_source.html#TensorBoard.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.sources.TensorBoard.load" title="Link to this definition">#</a></dt>
+<dd><p>Load the data from the source.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of runs with their parameters, metrics, and optionally temporal data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.sources.WandB">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.sources.</span></span><span class="sig-name descname"><span class="pre">WandB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">project</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/sources/wandb_source.html#WandB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.sources.WandB" title="Link to this definition">#</a></dt>
+<dd><p>Weights &amp; Biases (WandB) source for loading runs from a WandB project.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>project</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The name of the WandB project to load runs from.</p></li>
+<li><p><strong>entity</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – Optional WandB entity (team or user). If None, uses the default
+entity from the WandB configuration. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ImportError</strong> – If the <cite>wandb</cite> package is not installed.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.sources.WandB.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/sources/wandb_source.html#WandB.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.sources.WandB.load" title="Link to this definition">#</a></dt>
+<dd><p>Load the data from the source.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of runs with their parameters, metrics, and optionally temporal data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="mock-source">
 <h2>Mock Source<a class="headerlink" href="#mock-source" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.sources.Mock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.sources.</span></span><span class="sig-name descname"><span class="pre">Mock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_seeds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/sources/mock_source.html#Mock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.sources.Mock" title="Link to this definition">#</a></dt>
+<dd><p>Mock source for generating runs based on a grid of hyperparameters.</p>
+<p>For each run, <cite>accuracy</cite>, <cite>f1</cite>, and <cite>loss</cite> metrics are randomly generated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]]</span>) – Dictionary mapping parameter names to lists of values.</p></li>
+<li><p><strong>num_seeds</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – Number of runs to generate per config with different seeds.
+Defaults to 1.</p></li>
+<li><p><strong>steps</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – Number of steps to use for temporal metrics.
+Defaults to 25.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.sources.Mock.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/sources/mock_source.html#Mock.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.sources.Mock.load" title="Link to this definition">#</a></dt>
+<dd><p>Load the data from the source.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of runs with their parameters, metrics, and optionally temporal data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 
@@ -360,9 +564,43 @@ and implement the <code class="xref py py-meth docutils literal notranslate"><sp
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract-source">Abstract Source</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-sources">Experiment Sources</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mock-source">Mock Source</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract-source">Abstract Source</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.sources.AbstractSource"><code class="docutils literal notranslate"><span class="pre">AbstractSource</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.sources.AbstractSource.load"><code class="docutils literal notranslate"><span class="pre">AbstractSource.load()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-sources">Experiment Sources</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.sources.Autrainer"><code class="docutils literal notranslate"><span class="pre">Autrainer</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.sources.Autrainer.load"><code class="docutils literal notranslate"><span class="pre">Autrainer.load()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.sources.ClearML"><code class="docutils literal notranslate"><span class="pre">ClearML</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.sources.ClearML.load"><code class="docutils literal notranslate"><span class="pre">ClearML.load()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.sources.MLflow"><code class="docutils literal notranslate"><span class="pre">MLflow</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.sources.MLflow.load"><code class="docutils literal notranslate"><span class="pre">MLflow.load()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.sources.TensorBoard"><code class="docutils literal notranslate"><span class="pre">TensorBoard</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.sources.TensorBoard.load"><code class="docutils literal notranslate"><span class="pre">TensorBoard.load()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.sources.WandB"><code class="docutils literal notranslate"><span class="pre">WandB</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.sources.WandB.load"><code class="docutils literal notranslate"><span class="pre">WandB.load()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mock-source">Mock Source</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.sources.Mock"><code class="docutils literal notranslate"><span class="pre">Mock</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.sources.Mock.load"><code class="docutils literal notranslate"><span class="pre">Mock.load()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

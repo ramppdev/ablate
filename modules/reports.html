@@ -43,7 +43,7 @@
 
     <script src="../_static/jquery.js?v=5d32c60e"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../_static/documentation_options.js?v=a58bc63e"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -317,8 +317,8 @@
                   
   <section id="reports">
 <span id="id1"></span><h1>Reports<a class="headerlink" href="#reports" title="Link to this heading">#</a></h1>
-<p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">Report</span></code> defines and organizes the structure of experiment results.
-It holds a list of <code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code> objects and a sequence of content <a class="reference internal" href="blocks.html#blocks"><span class="std std-ref">blocks</span></a>.</p>
+<p>A <a class="reference internal" href="#ablate.Report" title="ablate.Report"><code class="xref py py-class docutils literal notranslate"><span class="pre">Report</span></code></a> defines and organizes the structure of experiment results.
+It holds a list of <a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a> objects and a sequence of content <a class="reference internal" href="blocks.html#blocks"><span class="std std-ref">blocks</span></a>.</p>
 <p>Reports are composed of individual blocks such as headings, tables, text sections, or figures.
 These blocks define the structure of the report, while <a class="reference internal" href="exporters.html#exporters"><span class="std std-ref">exporters</span></a> define how the report is rendered and saved.</p>
 <div class="admonition tip">
@@ -328,6 +328,34 @@ These blocks define the structure of the report, while <a class="reference inter
 </div>
 <section id="report">
 <h2>Report<a class="headerlink" href="#report" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.Report">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.</span></span><span class="sig-name descname"><span class="pre">Report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/report.html#Report"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.Report" title="Link to this definition">#</a></dt>
+<dd><p>Report mapping a list of runs to a list of blocks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]</span>) – List of runs to be associated with the report.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.Report.add">
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">blocks</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/report.html#Report.add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.Report.add" title="Link to this definition">#</a></dt>
+<dd><p>Add one or more blocks to the report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>blocks</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="blocks.html#ablate.blocks.AbstractBlock" title="ablate.blocks.abstract_block.AbstractBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractBlock</span></code></a></span>) – One or more blocks to be added to the report.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">Self</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The updated report with the added blocks.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 
@@ -354,7 +382,13 @@ These blocks define the structure of the report, while <a class="reference inter
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#report">Report</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#report">Report</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.Report"><code class="docutils literal notranslate"><span class="pre">Report</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.Report.add"><code class="docutils literal notranslate"><span class="pre">Report.add()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

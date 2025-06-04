@@ -43,7 +43,7 @@
 
     <script src="../_static/jquery.js?v=5d32c60e"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../_static/documentation_options.js?v=a58bc63e"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -318,25 +318,629 @@
   <section id="queries">
 <span id="id1"></span><h1>Queries<a class="headerlink" href="#queries" title="Link to this heading">#</a></h1>
 <p>Queries are used to transform, filter, and organize experiment runs in a functional and composable way.
-They operate on lists of <code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code> objects and return new a (grouped) query, preserving immutability.</p>
+They operate on lists of <a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a> objects and return new a (grouped) query, preserving immutability.</p>
 <p>Typical operations include filtering, sorting, grouping, aggregating, and computing derived values.
-All queries are applied through the <code class="xref py py-class docutils literal notranslate"><span class="pre">Query</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">GroupedQuery</span></code> interfaces using a chainable syntax.</p>
+All queries are applied through the <a class="reference internal" href="#ablate.queries.Query" title="ablate.queries.Query"><code class="xref py py-class docutils literal notranslate"><span class="pre">Query</span></code></a> and <a class="reference internal" href="#ablate.queries.GroupedQuery" title="ablate.queries.GroupedQuery"><code class="xref py py-class docutils literal notranslate"><span class="pre">GroupedQuery</span></code></a> interfaces using a chainable syntax.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>Queries can be reused and recombined without modifying the original data.</p>
 </div>
 <section id="query-and-grouped-query">
 <h2>Query and Grouped Query<a class="headerlink" href="#query-and-grouped-query" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.queries.Query">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.queries.</span></span><span class="sig-name descname"><span class="pre">Query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/query.html#Query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.Query" title="Link to this definition">#</a></dt>
+<dd><p>Query interface for manipulating runs in a functional way.</p>
+<p>All methods operate on a shallow copy of the runs in the query, so the original
+runs are not modified and assumed to be immutable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]</span>) – List of runs to be queried.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.queries.Query.filter">
+<span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/query.html#Query.filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.Query.filter" title="Link to this definition">#</a></dt>
+<dd><p>Filter the runs in the query based on a predicate function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fn</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>], <code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>]</span>) – Predicate function that takes in a run and returns a boolean value.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.Query" title="ablate.queries.query.Query"><code class="xref py py-class docutils literal notranslate"><span class="pre">Query</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A new query with the runs that satisfy the predicate function.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.queries.Query.map">
+<span class="sig-name descname"><span class="pre">map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/query.html#Query.map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.Query.map" title="Link to this definition">#</a></dt>
+<dd><p>Apply a function to each run in the query.</p>
+<p>This function is intended to be used for modifying the runs in the query. The
+function should return a new run object as the original run is not modified.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fn</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>], <a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]</span>) – Function that takes in a run and returns a new run object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.Query" title="ablate.queries.query.Query"><code class="xref py py-class docutils literal notranslate"><span class="pre">Query</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A new query with the modified runs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.queries.Query.sort">
+<span class="sig-name descname"><span class="pre">sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ascending</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/query.html#Query.sort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.Query.sort" title="Link to this definition">#</a></dt>
+<dd><p>Sort the runs in the query based on a metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.AbstractMetric" title="ablate.queries.selectors.AbstractMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractMetric</span></code></a></span>) – Metric to sort the runs by.</p></li>
+<li><p><strong>ascending</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>) – Whether to sort in ascending order.
+Defaults to False (descending order).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.Query" title="ablate.queries.query.Query"><code class="xref py py-class docutils literal notranslate"><span class="pre">Query</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A new query with the runs sorted by the specified metric.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.queries.Query.project">
+<span class="sig-name descname"><span class="pre">project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selectors</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/query.html#Query.project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.Query.project" title="Link to this definition">#</a></dt>
+<dd><p>Project the parameter space of the runs in the query to a subset of
+parameters only including the specified selectors.</p>
+<p>This function is intended to be used for reducing the dimensionality of the
+parameter space and therefore operates on a deep copy of the runs in the query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>selectors</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<a class="reference internal" href="#ablate.queries.AbstractParam" title="ablate.queries.selectors.AbstractParam"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractParam</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="#ablate.queries.AbstractParam" title="ablate.queries.selectors.AbstractParam"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractParam</span></code></a>]]</span>) – Selector or list of selectors to project the runs by.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.Query" title="ablate.queries.query.Query"><code class="xref py py-class docutils literal notranslate"><span class="pre">Query</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A new query with the projected runs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.queries.Query.groupby">
+<span class="sig-name descname"><span class="pre">groupby</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selectors</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/query.html#Query.groupby"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.Query.groupby" title="Link to this definition">#</a></dt>
+<dd><p>Group the runs in the query by one or more selectors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>selectors</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<a class="reference internal" href="#ablate.queries.AbstractParam" title="ablate.queries.selectors.AbstractParam"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractParam</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="#ablate.queries.AbstractParam" title="ablate.queries.selectors.AbstractParam"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractParam</span></code></a>]]</span>) – Selector or list of selectors to group the runs by.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.GroupedQuery" title="ablate.queries.grouped_query.GroupedQuery"><code class="xref py py-class docutils literal notranslate"><span class="pre">GroupedQuery</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A grouped query containing the grouped runs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.queries.Query.groupdiff">
+<span class="sig-name descname"><span class="pre">groupdiff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selectors</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/query.html#Query.groupdiff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.Query.groupdiff" title="Link to this definition">#</a></dt>
+<dd><p>Group the runs in the query by one or more selectors, excluding the keys.
+This is similar to <cite>groupby</cite> but it excludes the specified keys from the
+grouping key.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>selectors</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<a class="reference internal" href="#ablate.queries.AbstractParam" title="ablate.queries.selectors.AbstractParam"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractParam</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="#ablate.queries.AbstractParam" title="ablate.queries.selectors.AbstractParam"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractParam</span></code></a>]]</span>) – Selector or list of selectors to exclude from the grouping key.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.GroupedQuery" title="ablate.queries.grouped_query.GroupedQuery"><code class="xref py py-class docutils literal notranslate"><span class="pre">GroupedQuery</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A grouped query containing the grouped runs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.queries.Query.head">
+<span class="sig-name descname"><span class="pre">head</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/query.html#Query.head"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.Query.head" title="Link to this definition">#</a></dt>
+<dd><p>Get the first n runs in the query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – Number of runs to return.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.Query" title="ablate.queries.query.Query"><code class="xref py py-class docutils literal notranslate"><span class="pre">Query</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A new query with the first n runs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.queries.Query.tail">
+<span class="sig-name descname"><span class="pre">tail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/query.html#Query.tail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.Query.tail" title="Link to this definition">#</a></dt>
+<dd><p>Get the last n runs in the query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – Number of runs to return.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.Query" title="ablate.queries.query.Query"><code class="xref py py-class docutils literal notranslate"><span class="pre">Query</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A new query with the last n runs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.queries.Query.topk">
+<span class="sig-name descname"><span class="pre">topk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/query.html#Query.topk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.Query.topk" title="Link to this definition">#</a></dt>
+<dd><p>Get the top k runs in the query based on a metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metric</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.AbstractMetric" title="ablate.queries.selectors.AbstractMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractMetric</span></code></a></span>) – Metric to sort the runs by.</p></li>
+<li><p><strong>k</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – Number of top runs to return.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.Query" title="ablate.queries.query.Query"><code class="xref py py-class docutils literal notranslate"><span class="pre">Query</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A new query with the top k runs based on the specified metric.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.queries.Query.bottomk">
+<span class="sig-name descname"><span class="pre">bottomk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/query.html#Query.bottomk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.Query.bottomk" title="Link to this definition">#</a></dt>
+<dd><p>Get the bottom k runs in the query based on a metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metric</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.AbstractMetric" title="ablate.queries.selectors.AbstractMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractMetric</span></code></a></span>) – Metric to sort the runs by.</p></li>
+<li><p><strong>k</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – Number of bottom runs to return.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.Query" title="ablate.queries.query.Query"><code class="xref py py-class docutils literal notranslate"><span class="pre">Query</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A new query with the bottom k runs based on the specified metric.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.queries.Query.all">
+<span class="sig-name descname"><span class="pre">all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/query.html#Query.all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.Query.all" title="Link to this definition">#</a></dt>
+<dd><p>Collect all runs in the query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of all runs in the query.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.queries.Query.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/query.html#Query.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.Query.copy" title="Link to this definition">#</a></dt>
+<dd><p>Obtain a shallow copy of the query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.Query" title="ablate.queries.query.Query"><code class="xref py py-class docutils literal notranslate"><span class="pre">Query</span></code></a></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new query with the same runs as the original query.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.queries.Query.deepcopy">
+<span class="sig-name descname"><span class="pre">deepcopy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/query.html#Query.deepcopy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.Query.deepcopy" title="Link to this definition">#</a></dt>
+<dd><p>Obtain a deep copy of the query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.Query" title="ablate.queries.query.Query"><code class="xref py py-class docutils literal notranslate"><span class="pre">Query</span></code></a></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new query with deep copies of the runs in the original query.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.queries.GroupedQuery">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.queries.</span></span><span class="sig-name descname"><span class="pre">GroupedQuery</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">groups</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/grouped_query.html#GroupedQuery"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.GroupedQuery" title="Link to this definition">#</a></dt>
+<dd><p>Query interface for manipulating grouped runs in a functional way.</p>
+<p>All methods operate on a shallow copy of the runs in the query, so the original
+runs are not modified and assumed to be immutable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>groups</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.GroupedRun" title="ablate.core.types.runs.GroupedRun"><code class="xref py py-class docutils literal notranslate"><span class="pre">GroupedRun</span></code></a>]</span>) – A list of grouped runs to be queried.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.queries.GroupedQuery.filter">
+<span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/grouped_query.html#GroupedQuery.filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.GroupedQuery.filter" title="Link to this definition">#</a></dt>
+<dd><p>Filter the grouped runs in the grouped query based on a predicate function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fn</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[[<a class="reference internal" href="core.html#ablate.core.types.GroupedRun" title="ablate.core.types.runs.GroupedRun"><code class="xref py py-class docutils literal notranslate"><span class="pre">GroupedRun</span></code></a>], <code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>]</span>) – Predicate function that takes in a grouped run and returns a boolean
+value.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.GroupedQuery" title="ablate.queries.grouped_query.GroupedQuery"><code class="xref py py-class docutils literal notranslate"><span class="pre">GroupedQuery</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A new grouped query with the grouped runs that satisfy the predicate
+function.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.queries.GroupedQuery.map">
+<span class="sig-name descname"><span class="pre">map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/grouped_query.html#GroupedQuery.map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.GroupedQuery.map" title="Link to this definition">#</a></dt>
+<dd><p>Apply a function to each grouped run in the grouped query.</p>
+<p>This function is intended to be used for modifying the grouped runs in the
+grouped query. The function should return a new grouped run object as the
+original grouped run is not modified.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fn</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>[[<a class="reference internal" href="core.html#ablate.core.types.GroupedRun" title="ablate.core.types.runs.GroupedRun"><code class="xref py py-class docutils literal notranslate"><span class="pre">GroupedRun</span></code></a>], <a class="reference internal" href="core.html#ablate.core.types.GroupedRun" title="ablate.core.types.runs.GroupedRun"><code class="xref py py-class docutils literal notranslate"><span class="pre">GroupedRun</span></code></a>]</span>) – Function that takes in a grouped run and returns a new grouped run
+object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.GroupedQuery" title="ablate.queries.grouped_query.GroupedQuery"><code class="xref py py-class docutils literal notranslate"><span class="pre">GroupedQuery</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A new grouped query with the modified grouped runs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.queries.GroupedQuery.sort">
+<span class="sig-name descname"><span class="pre">sort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ascending</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/grouped_query.html#GroupedQuery.sort"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.GroupedQuery.sort" title="Link to this definition">#</a></dt>
+<dd><p>Sort the runs inside each grouped run in the grouped query based on a metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.AbstractMetric" title="ablate.queries.selectors.AbstractMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractMetric</span></code></a></span>) – Metric to sort the grouped runs by.</p></li>
+<li><p><strong>ascending</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></span>) – Whether to sort in ascending order.
+Defaults to False (descending order).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.GroupedQuery" title="ablate.queries.grouped_query.GroupedQuery"><code class="xref py py-class docutils literal notranslate"><span class="pre">GroupedQuery</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A new grouped query with the grouped runs sorted by the specified metric.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.queries.GroupedQuery.project">
+<span class="sig-name descname"><span class="pre">project</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selectors</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/grouped_query.html#GroupedQuery.project"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.GroupedQuery.project" title="Link to this definition">#</a></dt>
+<dd><p>Project the parameter space of the grouped runs in the grouped query to a
+subset of parameters only including the specified selectors.</p>
+<p>This function is intended to be used for reducing the dimensionality of the
+parameter space and therefore operates on a deep copy of the grouped runs in the
+grouped query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>selectors</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<a class="reference internal" href="#ablate.queries.AbstractParam" title="ablate.queries.selectors.AbstractParam"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractParam</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="#ablate.queries.AbstractParam" title="ablate.queries.selectors.AbstractParam"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractParam</span></code></a>]]</span>) – Selector or list of selectors to project the grouped runs by.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.GroupedQuery" title="ablate.queries.grouped_query.GroupedQuery"><code class="xref py py-class docutils literal notranslate"><span class="pre">GroupedQuery</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A new grouped query with the projected grouped runs.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.queries.GroupedQuery.head">
+<span class="sig-name descname"><span class="pre">head</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/grouped_query.html#GroupedQuery.head"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.GroupedQuery.head" title="Link to this definition">#</a></dt>
+<dd><p>Get the first n runs inside each grouped run.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – Number of runs to return per group.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.Query" title="ablate.queries.query.Query"><code class="xref py py-class docutils literal notranslate"><span class="pre">Query</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A new query with the first n runs from each grouped run.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.queries.GroupedQuery.tail">
+<span class="sig-name descname"><span class="pre">tail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/grouped_query.html#GroupedQuery.tail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.GroupedQuery.tail" title="Link to this definition">#</a></dt>
+<dd><p>Get the last n runs inside each grouped run.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – Number of runs to return per group.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.Query" title="ablate.queries.query.Query"><code class="xref py py-class docutils literal notranslate"><span class="pre">Query</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A new query with the last n runs from each grouped run.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.queries.GroupedQuery.topk">
+<span class="sig-name descname"><span class="pre">topk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/grouped_query.html#GroupedQuery.topk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.GroupedQuery.topk" title="Link to this definition">#</a></dt>
+<dd><p>Get the top k runs inside each grouped run based on a metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metric</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.AbstractMetric" title="ablate.queries.selectors.AbstractMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractMetric</span></code></a></span>) – Metric to sort the runs by.</p></li>
+<li><p><strong>k</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – Number of top runs to return per group.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.Query" title="ablate.queries.query.Query"><code class="xref py py-class docutils literal notranslate"><span class="pre">Query</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A new query with the top k runs from each grouped run based on the
+specified metric.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.queries.GroupedQuery.bottomk">
+<span class="sig-name descname"><span class="pre">bottomk</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/grouped_query.html#GroupedQuery.bottomk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.GroupedQuery.bottomk" title="Link to this definition">#</a></dt>
+<dd><p>Get the bottom k runs inside each grouped run based on a metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metric</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.AbstractMetric" title="ablate.queries.selectors.AbstractMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractMetric</span></code></a></span>) – Metric to sort the runs by.</p></li>
+<li><p><strong>k</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – Number of bottom runs to return per group.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.Query" title="ablate.queries.query.Query"><code class="xref py py-class docutils literal notranslate"><span class="pre">Query</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A new query with the bottom k runs from each grouped run based on the
+specified metric.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.queries.GroupedQuery.aggregate">
+<span class="sig-name descname"><span class="pre">aggregate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">over</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/grouped_query.html#GroupedQuery.aggregate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.GroupedQuery.aggregate" title="Link to this definition">#</a></dt>
+<dd><p>Aggregate each group of runs using a specified method.</p>
+<dl class="simple">
+<dt>Supported methods include:</dt><dd><ul class="simple">
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">&quot;first&quot;</span></code>: Selects the first run from each group.</p></li>
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">&quot;last&quot;</span></code>: Selects the last run from each group.</p></li>
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">&quot;best&quot;</span></code>: Selects the run with the best value based on the given
+metric.</p></li>
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">&quot;worst&quot;</span></code>: Selects the run with the worst value based on the given
+metric.</p></li>
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">&quot;mean&quot;</span></code>: Computes the mean run across all runs in each group,
+including averaged metrics and temporal data, and collapsed metadata.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>method</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Literal</span></code>[<code class="docutils literal notranslate"><span class="pre">'first'</span></code>, <code class="docutils literal notranslate"><span class="pre">'last'</span></code>, <code class="docutils literal notranslate"><span class="pre">'best'</span></code>, <code class="docutils literal notranslate"><span class="pre">'worst'</span></code>, <code class="docutils literal notranslate"><span class="pre">'mean'</span></code>]</span>) – Aggregation strategy to apply per group.</p></li>
+<li><p><strong>over</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="#ablate.queries.AbstractMetric" title="ablate.queries.selectors.AbstractMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractMetric</span></code></a>]</span>) – The metric used for comparison when using “best” or “worst” methods.
+Has no effect for “first”, “last”, or “mean” methods.
+Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If an unsupported aggregation method is provided or if the
+    “best” or “worst” method is used without a specified metric.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.Query" title="ablate.queries.query.Query"><code class="xref py py-class docutils literal notranslate"><span class="pre">Query</span></code></a></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new query with the aggregated runs from each group.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.queries.GroupedQuery.all">
+<span class="sig-name descname"><span class="pre">all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/grouped_query.html#GroupedQuery.all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.GroupedQuery.all" title="Link to this definition">#</a></dt>
+<dd><p>Collect all runs in the grouped query by flattening the grouped runs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]</span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of all runs in the grouped query.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.queries.GroupedQuery.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/grouped_query.html#GroupedQuery.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.GroupedQuery.copy" title="Link to this definition">#</a></dt>
+<dd><p>Obtain a shallow copy of the grouped query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.GroupedQuery" title="ablate.queries.grouped_query.GroupedQuery"><code class="xref py py-class docutils literal notranslate"><span class="pre">GroupedQuery</span></code></a></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new grouped query with the same grouped runs as the original grouped
+query.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.queries.GroupedQuery.deepcopy">
+<span class="sig-name descname"><span class="pre">deepcopy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/grouped_query.html#GroupedQuery.deepcopy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.GroupedQuery.deepcopy" title="Link to this definition">#</a></dt>
+<dd><p>Obtain a deep copy of the grouped query.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#ablate.queries.GroupedQuery" title="ablate.queries.grouped_query.GroupedQuery"><code class="xref py py-class docutils literal notranslate"><span class="pre">GroupedQuery</span></code></a></span></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new grouped query with deep copies of the grouped runs in the original
+grouped query.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="query-selectors">
 <h2>Query Selectors<a class="headerlink" href="#query-selectors" title="Link to this heading">#</a></h2>
 <p>Query selectors are the building blocks for expressing transformations.
 Selectors can be used directly in queries to define filter conditions, sort keys, group keys, and aggregations.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.queries.AbstractSelector">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.queries.</span></span><span class="sig-name descname"><span class="pre">AbstractSelector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/selectors.html#AbstractSelector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.AbstractSelector" title="Link to this definition">#</a></dt>
+<dd><p>Abstract class for selecting runs based on a specific attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Name of the attribute to select on.</p></li>
+<li><p><strong>label</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – Optional label for displaying purposes. If None, defaults to <cite>name</cite>.
+Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <section id="parameter-selectors">
 <h3>Parameter Selectors<a class="headerlink" href="#parameter-selectors" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.queries.AbstractParam">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.queries.</span></span><span class="sig-name descname"><span class="pre">AbstractParam</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/selectors.html#AbstractParam"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.AbstractParam" title="Link to this definition">#</a></dt>
+<dd><p>Abstract class for selecting runs based on a specific attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Name of the attribute to select on.</p></li>
+<li><p><strong>label</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – Optional label for displaying purposes. If None, defaults to <cite>name</cite>.
+Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.queries.Id">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.queries.</span></span><span class="sig-name descname"><span class="pre">Id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/selectors.html#Id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.Id" title="Link to this definition">#</a></dt>
+<dd><p>Selector for the ID of the run.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>label</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – Optional label for displaying purposes. If None, defaults to <cite>name</cite>.
+Defaults to None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.queries.Param">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.queries.</span></span><span class="sig-name descname"><span class="pre">Param</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/selectors.html#Param"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.Param" title="Link to this definition">#</a></dt>
+<dd><p>Abstract class for selecting runs based on a specific attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Name of the attribute to select on.</p></li>
+<li><p><strong>label</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – Optional label for displaying purposes. If None, defaults to <cite>name</cite>.
+Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="metric-selectors">
 <h3>Metric Selectors<a class="headerlink" href="#metric-selectors" title="Link to this heading">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.queries.AbstractMetric">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.queries.</span></span><span class="sig-name descname"><span class="pre">AbstractMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/selectors.html#AbstractMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.AbstractMetric" title="Link to this definition">#</a></dt>
+<dd><p>Abstract class for selecting runs based on a specific attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Name of the attribute to select on.</p></li>
+<li><p><strong>label</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – Optional label for displaying purposes. If None, defaults to <cite>name</cite>.
+Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.queries.Metric">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.queries.</span></span><span class="sig-name descname"><span class="pre">Metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/selectors.html#Metric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.Metric" title="Link to this definition">#</a></dt>
+<dd><p>Abstract class for selecting runs based on a specific attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Name of the attribute to select on.</p></li>
+<li><p><strong>label</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – Optional label for displaying purposes. If None, defaults to <cite>name</cite>.
+Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.queries.TemporalMetric">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.queries.</span></span><span class="sig-name descname"><span class="pre">TemporalMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/queries/selectors.html#TemporalMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.queries.TemporalMetric" title="Link to this definition">#</a></dt>
+<dd><p>Selector for a specific temporal metric of the run.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – Name of the temporal metric to select on.</p></li>
+<li><p><strong>direction</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Literal</span></code>[<code class="docutils literal notranslate"><span class="pre">'min'</span></code>, <code class="docutils literal notranslate"><span class="pre">'max'</span></code>]</span>) – Direction of the metric. “min” for minimization, “max” for
+maximization.</p></li>
+<li><p><strong>reduction</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Literal</span></code>[<code class="docutils literal notranslate"><span class="pre">'min'</span></code>, <code class="docutils literal notranslate"><span class="pre">'max'</span></code>, <code class="docutils literal notranslate"><span class="pre">'first'</span></code>, <code class="docutils literal notranslate"><span class="pre">'last'</span></code>]]</span>) – Reduction method to apply to the temporal metric. “min” for
+minimum, “max” for maximum, “first” for the first value, and “last”
+for the last value. If None, the direction is used as the reduction.
+Defaults to None.</p></li>
+<li><p><strong>label</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]</span>) – Optional label for displaying purposes. If None, defaults to <cite>name</cite>.
+Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
 </section>
@@ -364,10 +968,54 @@ Selectors can be used directly in queries to define filter conditions, sort keys
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#query-and-grouped-query">Query and Grouped Query</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#query-and-grouped-query">Query and Grouped Query</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.Query"><code class="docutils literal notranslate"><span class="pre">Query</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.Query.filter"><code class="docutils literal notranslate"><span class="pre">Query.filter()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.Query.map"><code class="docutils literal notranslate"><span class="pre">Query.map()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.Query.sort"><code class="docutils literal notranslate"><span class="pre">Query.sort()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.Query.project"><code class="docutils literal notranslate"><span class="pre">Query.project()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.Query.groupby"><code class="docutils literal notranslate"><span class="pre">Query.groupby()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.Query.groupdiff"><code class="docutils literal notranslate"><span class="pre">Query.groupdiff()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.Query.head"><code class="docutils literal notranslate"><span class="pre">Query.head()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.Query.tail"><code class="docutils literal notranslate"><span class="pre">Query.tail()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.Query.topk"><code class="docutils literal notranslate"><span class="pre">Query.topk()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.Query.bottomk"><code class="docutils literal notranslate"><span class="pre">Query.bottomk()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.Query.all"><code class="docutils literal notranslate"><span class="pre">Query.all()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.Query.copy"><code class="docutils literal notranslate"><span class="pre">Query.copy()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.Query.deepcopy"><code class="docutils literal notranslate"><span class="pre">Query.deepcopy()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.GroupedQuery"><code class="docutils literal notranslate"><span class="pre">GroupedQuery</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.GroupedQuery.filter"><code class="docutils literal notranslate"><span class="pre">GroupedQuery.filter()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.GroupedQuery.map"><code class="docutils literal notranslate"><span class="pre">GroupedQuery.map()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.GroupedQuery.sort"><code class="docutils literal notranslate"><span class="pre">GroupedQuery.sort()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.GroupedQuery.project"><code class="docutils literal notranslate"><span class="pre">GroupedQuery.project()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.GroupedQuery.head"><code class="docutils literal notranslate"><span class="pre">GroupedQuery.head()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.GroupedQuery.tail"><code class="docutils literal notranslate"><span class="pre">GroupedQuery.tail()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.GroupedQuery.topk"><code class="docutils literal notranslate"><span class="pre">GroupedQuery.topk()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.GroupedQuery.bottomk"><code class="docutils literal notranslate"><span class="pre">GroupedQuery.bottomk()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.GroupedQuery.aggregate"><code class="docutils literal notranslate"><span class="pre">GroupedQuery.aggregate()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.GroupedQuery.all"><code class="docutils literal notranslate"><span class="pre">GroupedQuery.all()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.GroupedQuery.copy"><code class="docutils literal notranslate"><span class="pre">GroupedQuery.copy()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.GroupedQuery.deepcopy"><code class="docutils literal notranslate"><span class="pre">GroupedQuery.deepcopy()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#query-selectors">Query Selectors</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-selectors">Parameter Selectors</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metric-selectors">Metric Selectors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.AbstractSelector"><code class="docutils literal notranslate"><span class="pre">AbstractSelector</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-selectors">Parameter Selectors</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.AbstractParam"><code class="docutils literal notranslate"><span class="pre">AbstractParam</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.Id"><code class="docutils literal notranslate"><span class="pre">Id</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.Param"><code class="docutils literal notranslate"><span class="pre">Param</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metric-selectors">Metric Selectors</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.AbstractMetric"><code class="docutils literal notranslate"><span class="pre">AbstractMetric</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.Metric"><code class="docutils literal notranslate"><span class="pre">Metric</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.queries.TemporalMetric"><code class="docutils literal notranslate"><span class="pre">TemporalMetric</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

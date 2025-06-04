@@ -43,7 +43,7 @@
 
     <script src="../_static/jquery.js?v=5d32c60e"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../_static/documentation_options.js?v=a58bc63e"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -317,25 +317,326 @@
                   
   <section id="blocks">
 <span id="id1"></span><h1>Blocks<a class="headerlink" href="#blocks" title="Link to this heading">#</a></h1>
-<p>Blocks are modular content units used to structure a <code class="xref py py-class docutils literal notranslate"><span class="pre">Report</span></code>.
+<p>Blocks are modular content units used to structure a <a class="reference internal" href="reports.html#ablate.Report" title="ablate.Report"><code class="xref py py-class docutils literal notranslate"><span class="pre">Report</span></code></a>.
 They define how runs are structured, however not how they are rendered or exported.</p>
-<p>Each block operates on a list of <code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code> objects, either globally (from the report) or locally via the runs argument.</p>
+<p>Each block operates on a list of <a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a> objects, either globally (from the report) or locally via the runs argument.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>To create custom blocks, inherit from <code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractBlock</span></code>
-and implement the <code class="xref py py-meth docutils literal notranslate"><span class="pre">build()</span></code> method.</p>
+<p>To create custom blocks, inherit from <a class="reference internal" href="#ablate.blocks.AbstractBlock" title="ablate.blocks.AbstractBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractBlock</span></code></a>
+and implement the <a class="reference internal" href="#ablate.blocks.AbstractBlock.build" title="ablate.blocks.AbstractBlock.build"><code class="xref py py-meth docutils literal notranslate"><span class="pre">build()</span></code></a> method.</p>
 </div>
 <section id="abstract-block">
 <h2>Abstract Block<a class="headerlink" href="#abstract-block" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.blocks.AbstractBlock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.blocks.</span></span><span class="sig-name descname"><span class="pre">AbstractBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/blocks/abstract_block.html#AbstractBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.blocks.AbstractBlock" title="Link to this definition">#</a></dt>
+<dd><p>Abstract content block for a report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]]</span>) – Optional list of runs to be used for the block instead of the default
+runs from the report. Defaults to None.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.blocks.AbstractBlock.build">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/blocks/abstract_block.html#AbstractBlock.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.blocks.AbstractBlock.build" title="Link to this definition">#</a></dt>
+<dd><p>Build the intermediate representation of the block, ready for rendering
+and export.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]</span>) – List of runs to be used for the block.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The intermediate representation of the block.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="text-blocks">
 <h2>Text Blocks<a class="headerlink" href="#text-blocks" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.blocks.AbstractTextBlock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.blocks.</span></span><span class="sig-name descname"><span class="pre">AbstractTextBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/blocks/text_blocks.html#AbstractTextBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.blocks.AbstractTextBlock" title="Link to this definition">#</a></dt>
+<dd><p>Block containing styled text for a report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The text content of the block.</p></li>
+<li><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]]</span>) – Optional list of runs to be used for the block instead of the default
+runs from the report. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.blocks.AbstractTextBlock.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/blocks/text_blocks.html#AbstractTextBlock.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.blocks.AbstractTextBlock.build" title="Link to this definition">#</a></dt>
+<dd><p>Build the intermediate representation of the block, ready for rendering
+and export.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]</span>) – List of runs to be used for the block.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The intermediate representation of the block.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.blocks.Text">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.blocks.</span></span><span class="sig-name descname"><span class="pre">Text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/blocks/text_blocks.html#Text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.blocks.Text" title="Link to this definition">#</a></dt>
+<dd><p>Block containing styled text for a report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The text content of the block.</p></li>
+<li><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]]</span>) – Optional list of runs to be used for the block instead of the default
+runs from the report. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.blocks.H1">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.blocks.</span></span><span class="sig-name descname"><span class="pre">H1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/blocks/text_blocks.html#H1"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.blocks.H1" title="Link to this definition">#</a></dt>
+<dd><p>Block containing styled text for a report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The text content of the block.</p></li>
+<li><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]]</span>) – Optional list of runs to be used for the block instead of the default
+runs from the report. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.blocks.H2">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.blocks.</span></span><span class="sig-name descname"><span class="pre">H2</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/blocks/text_blocks.html#H2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.blocks.H2" title="Link to this definition">#</a></dt>
+<dd><p>Block containing styled text for a report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The text content of the block.</p></li>
+<li><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]]</span>) – Optional list of runs to be used for the block instead of the default
+runs from the report. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.blocks.H3">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.blocks.</span></span><span class="sig-name descname"><span class="pre">H3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/blocks/text_blocks.html#H3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.blocks.H3" title="Link to this definition">#</a></dt>
+<dd><p>Block containing styled text for a report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The text content of the block.</p></li>
+<li><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]]</span>) – Optional list of runs to be used for the block instead of the default
+runs from the report. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.blocks.H4">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.blocks.</span></span><span class="sig-name descname"><span class="pre">H4</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/blocks/text_blocks.html#H4"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.blocks.H4" title="Link to this definition">#</a></dt>
+<dd><p>Block containing styled text for a report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The text content of the block.</p></li>
+<li><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]]</span>) – Optional list of runs to be used for the block instead of the default
+runs from the report. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.blocks.H5">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.blocks.</span></span><span class="sig-name descname"><span class="pre">H5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/blocks/text_blocks.html#H5"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.blocks.H5" title="Link to this definition">#</a></dt>
+<dd><p>Block containing styled text for a report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The text content of the block.</p></li>
+<li><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]]</span>) – Optional list of runs to be used for the block instead of the default
+runs from the report. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.blocks.H6">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.blocks.</span></span><span class="sig-name descname"><span class="pre">H6</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/blocks/text_blocks.html#H6"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.blocks.H6" title="Link to this definition">#</a></dt>
+<dd><p>Block containing styled text for a report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></span>) – The text content of the block.</p></li>
+<li><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]]</span>) – Optional list of runs to be used for the block instead of the default
+runs from the report. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="table-blocks">
 <h2>Table Blocks<a class="headerlink" href="#table-blocks" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.blocks.AbstractTableBlock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.blocks.</span></span><span class="sig-name descname"><span class="pre">AbstractTableBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/blocks/table_blocks.html#AbstractTableBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.blocks.AbstractTableBlock" title="Link to this definition">#</a></dt>
+<dd><p>Table block for a report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>columns</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="queries.html#ablate.queries.AbstractSelector" title="ablate.queries.selectors.AbstractSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractSelector</span></code></a>]</span>) – Columns to be included in the table. Each column is defined by a
+selector that extracts the data from the runs.</p></li>
+<li><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]]</span>) – Optional list of runs to be used for the block instead of the default
+runs from the report. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.blocks.AbstractTableBlock.build">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/blocks/table_blocks.html#AbstractTableBlock.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.blocks.AbstractTableBlock.build" title="Link to this definition">#</a></dt>
+<dd><p>Build the intermediate representation of the block, ready for rendering
+and export.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]</span>) – List of runs to be used for the block.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The intermediate representation of the block.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.blocks.Table">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.blocks.</span></span><span class="sig-name descname"><span class="pre">Table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/blocks/table_blocks.html#Table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.blocks.Table" title="Link to this definition">#</a></dt>
+<dd><p>Table block for a report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>columns</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="queries.html#ablate.queries.AbstractSelector" title="ablate.queries.selectors.AbstractSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractSelector</span></code></a>]</span>) – Columns to be included in the table. Each column is defined by a
+selector that extracts the data from the runs.</p></li>
+<li><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]]</span>) – Optional list of runs to be used for the block instead of the default
+runs from the report. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.blocks.Table.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/blocks/table_blocks.html#Table.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.blocks.Table.build" title="Link to this definition">#</a></dt>
+<dd><p>Build the intermediate representation of the block, ready for rendering
+and export.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]</span>) – List of runs to be used for the block.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The intermediate representation of the block.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="metric-blocks">
 <h2>Metric Blocks<a class="headerlink" href="#metric-blocks" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.blocks.AbstractFigureBlock">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.blocks.</span></span><span class="sig-name descname"><span class="pre">AbstractFigureBlock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/blocks/figure_blocks.html#AbstractFigureBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.blocks.AbstractFigureBlock" title="Link to this definition">#</a></dt>
+<dd><p>Abstract content block for a report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]]</span>) – Optional list of runs to be used for the block instead of the default
+runs from the report. Defaults to None.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.blocks.AbstractFigureBlock.build">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/blocks/figure_blocks.html#AbstractFigureBlock.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.blocks.AbstractFigureBlock.build" title="Link to this definition">#</a></dt>
+<dd><p>Build the intermediate representation of the block, ready for rendering
+and export.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]</span>) – List of runs to be used for the block.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The intermediate representation of the block.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="ablate.blocks.MetricPlot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ablate.blocks.</span></span><span class="sig-name descname"><span class="pre">MetricPlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">identifier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/blocks/figure_blocks.html#MetricPlot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.blocks.MetricPlot" title="Link to this definition">#</a></dt>
+<dd><p>Block for plotting metrics over time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metrics</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<a class="reference internal" href="queries.html#ablate.queries.AbstractMetric" title="ablate.queries.selectors.AbstractMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractMetric</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="queries.html#ablate.queries.AbstractMetric" title="ablate.queries.selectors.AbstractMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractMetric</span></code></a>]]</span>) – Metric or list of metrics to be plotted over time.</p></li>
+<li><p><strong>identifier</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<a class="reference internal" href="queries.html#ablate.queries.Param" title="ablate.queries.selectors.Param"><code class="xref py py-class docutils literal notranslate"><span class="pre">Param</span></code></a>]</span>) – Optional identifier for the runs. If None, the run ID is used.
+Defaults to None.</p></li>
+<li><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]]</span>) – Optional list of runs to be used for the block instead of the default
+runs from the report. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="ablate.blocks.MetricPlot.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ablate/blocks/figure_blocks.html#MetricPlot.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ablate.blocks.MetricPlot.build" title="Link to this definition">#</a></dt>
+<dd><p>Build the intermediate representation of the block, ready for rendering
+and export.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>runs</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<a class="reference internal" href="core.html#ablate.core.types.Run" title="ablate.core.types.runs.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a>]</span>) – List of runs to be used for the block.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The intermediate representation of the block.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 
@@ -362,10 +663,49 @@ and implement the <code class="xref py py-meth docutils literal notranslate"><sp
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract-block">Abstract Block</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#text-blocks">Text Blocks</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-blocks">Table Blocks</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metric-blocks">Metric Blocks</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abstract-block">Abstract Block</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.blocks.AbstractBlock"><code class="docutils literal notranslate"><span class="pre">AbstractBlock</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.blocks.AbstractBlock.build"><code class="docutils literal notranslate"><span class="pre">AbstractBlock.build()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#text-blocks">Text Blocks</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.blocks.AbstractTextBlock"><code class="docutils literal notranslate"><span class="pre">AbstractTextBlock</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.blocks.AbstractTextBlock.build"><code class="docutils literal notranslate"><span class="pre">AbstractTextBlock.build()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.blocks.Text"><code class="docutils literal notranslate"><span class="pre">Text</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.blocks.H1"><code class="docutils literal notranslate"><span class="pre">H1</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.blocks.H2"><code class="docutils literal notranslate"><span class="pre">H2</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.blocks.H3"><code class="docutils literal notranslate"><span class="pre">H3</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.blocks.H4"><code class="docutils literal notranslate"><span class="pre">H4</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.blocks.H5"><code class="docutils literal notranslate"><span class="pre">H5</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.blocks.H6"><code class="docutils literal notranslate"><span class="pre">H6</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-blocks">Table Blocks</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.blocks.AbstractTableBlock"><code class="docutils literal notranslate"><span class="pre">AbstractTableBlock</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.blocks.AbstractTableBlock.build"><code class="docutils literal notranslate"><span class="pre">AbstractTableBlock.build()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.blocks.Table"><code class="docutils literal notranslate"><span class="pre">Table</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.blocks.Table.build"><code class="docutils literal notranslate"><span class="pre">Table.build()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metric-blocks">Metric Blocks</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.blocks.AbstractFigureBlock"><code class="docutils literal notranslate"><span class="pre">AbstractFigureBlock</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.blocks.AbstractFigureBlock.build"><code class="docutils literal notranslate"><span class="pre">AbstractFigureBlock.build()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.blocks.MetricPlot"><code class="docutils literal notranslate"><span class="pre">MetricPlot</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ablate.blocks.MetricPlot.build"><code class="docutils literal notranslate"><span class="pre">MetricPlot.build()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
