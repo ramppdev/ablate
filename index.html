@@ -1,0 +1,563 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>ablate — ablate turns deep learning experiments into structured, human-readable reports.</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/theme.css?v=09ea2c4a" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="_static/jquery.js?v=5d32c60e"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="_static/documentation_options.js?v=01f34227"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
+    <script src="_static/external_links.js?v=919ee35f"></script>
+    <link rel="icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Sources" href="modules/sources.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="#">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo_light.webp" class="logo__image only-light" alt="ablate — ablate turns deep learning experiments into structured, human-readable reports."/>
+    <img src="_static/logo_dark.webp" class="logo__image only-dark pst-js-only" alt="ablate — ablate turns deep learning experiments into structured, human-readable reports."/>
+  
+  
+    <p class="title logo__title">ablate</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ramppdev/ablate" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ramppdev/ablate" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<h3><a href="#">Table of Contents</a></h3>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules/sources.html">Sources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/queries.html">Queries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/blocks.html">Blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/reports.html">Reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/exporters.html">Exporters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/core.html">Core</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="development/contributing.html">Contributing</a></li>
+</ul>
+</div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none"></div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <img alt="ablate turns deep learning experiments into structured, human-readable reports." class="align-center" src="_images/logo_banner.png" />
+<section id="ablate">
+<h1>ablate<a class="headerlink" href="#ablate" title="Link to this heading">#</a></h1>
+<p><a class="reference external" href="https://pypi.org/project/ablate/"><img alt="ablate PyPI Version" src="https://img.shields.io/pypi/v/ablate?logo=pypi&amp;logoColor=b4befe&amp;color=b4befe" /></a> <a class="reference external" href="https://pypi.org/project/ablate/"><img alt="ablate Python Versions" src="https://img.shields.io/pypi/pyversions/ablate?logo=python&amp;logoColor=b4befe&amp;color=b4befe" /></a> <a class="reference external" href="https://github.com/ramppdev/ablate/blob/main/LICENSE"><img alt="ablate GitHub License" src="https://img.shields.io/badge/license-MIT-b4befe?logo=c" /></a></p>
+<p><cite>ablate</cite> turns deep learning experiments into structured, human-readable reports. It is built around five principles:</p>
+<ul class="simple">
+<li><p><strong>composability</strong>: sources, queries, blocks, and exporters can be freely combined</p></li>
+<li><p><strong>immutability</strong>: query operations never mutate runs in-place, enabling safe reuse and functional-style chaining</p></li>
+<li><p><strong>extensibility</strong>: sources, blocks, and exporters are designed to be easily extended with custom implementations</p></li>
+<li><p><strong>readability</strong>: reports are generated with humans in mind: shareable, inspectable, and format-agnostic</p></li>
+<li><p><strong>minimal friction</strong>: no servers, no databases, no heavy integrations: just Python and your existing logs</p></li>
+</ul>
+<p>Currently, <cite>ablate</cite> supports the following <a class="reference internal" href="modules/sources.html#sources"><span class="std std-ref">sources</span></a> and <a class="reference internal" href="modules/exporters.html#exporters"><span class="std std-ref">exporters</span></a>:</p>
+<ul class="simple">
+<li><p>sources:
+<a class="reference external" href="https://github.com/autrainer/autrainer">autrainer</a>,
+<a class="reference external" href="https://clear.ml/">ClearML</a>,
+<a class="reference external" href="https://mlflow.org/">MLflow</a>,
+<a class="reference external" href="https://www.tensorflow.org/tensorboard">TensorBoard</a>,
+and <a class="reference external" href="https://wandb.ai/">WandB</a></p></li>
+<li><p>exporters: <a class="reference external" href="https://www.markdownguide.org/">Markdown</a> and <a class="reference external" href="https://jupyter.org/">Jupyter</a></p></li>
+</ul>
+<section id="installation">
+<span id="id1"></span><h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
+<p>Install <cite>ablate</cite> using <cite>pip</cite>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>ablate
+</pre></div>
+</div>
+<p>The following optional dependencies can be installed to enable additional features:</p>
+<ul class="simple">
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">ablate[clearml]</span></code> to use <a class="reference external" href="https://clear.ml/">ClearML</a> as an experiment source</p></li>
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">ablate[mlflow]</span></code> to use <a class="reference external" href="https://mlflow.org/">MLflow</a> as an experiment source</p></li>
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">ablate[tensorboard]</span></code> to use <a class="reference external" href="https://www.tensorflow.org/tensorboard">TensorBoard</a> as an experiment source</p></li>
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">ablate[wandb]</span></code> to use <a class="reference external" href="https://wandb.ai/">WandB</a> as an experiment source</p></li>
+<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">ablate[jupyter]</span></code> to use <cite>ablate</cite> in a <a class="reference external" href="https://jupyter.org/">Jupyter</a> notebook</p></li>
+</ul>
+</section>
+<section id="quickstart">
+<h2>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading">#</a></h2>
+<p><cite>ablate</cite> is built around five composable modules:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="modules/sources.html#sources"><span class="std std-ref">ablate.sources</span></a>: load experiment runs from various sources</p></li>
+<li><p><a class="reference internal" href="modules/queries.html#queries"><span class="std std-ref">ablate.queries</span></a>: apply queries and transformations to the runs</p></li>
+<li><p><a class="reference internal" href="modules/blocks.html#blocks"><span class="std std-ref">ablate.blocks</span></a>: structure content as tables, text, figures, and other blocks</p></li>
+<li><p><a class="reference internal" href="modules/reports.html#reports"><span class="std std-ref">ablate.Report</span></a>: create a report from the runs and blocks</p></li>
+<li><p><a class="reference internal" href="modules/exporters.html#exporters"><span class="std std-ref">ablate.exporters</span></a>: export a report to various formats</p></li>
+</ul>
+<section id="creating-a-report">
+<h3>Creating a Report<a class="headerlink" href="#creating-a-report" title="Link to this heading">#</a></h3>
+<p>To create your first <code class="xref py py-class docutils literal notranslate"><span class="pre">Report</span></code>, define one or more experiment sources.
+For example, the built in <code class="xref py py-class docutils literal notranslate"><span class="pre">Mock</span></code> can be used to simulate runs:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">import</span><span class="w"> </span><span class="nc">ablate</span>
+<span class="linenos">2</span>
+<span class="linenos">3</span><span class="n">source</span> <span class="o">=</span> <span class="nc">ablate</span><span class="o">.</span><span class="nc">sources</span><span class="o">.</span><span class="nc">Mock</span><span class="p">(</span>
+<span class="linenos">4</span>    <span class="n">grid</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;vgg&quot;</span><span class="p">,</span> <span class="s2">&quot;resnet&quot;</span><span class="p">],</span> <span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">]},</span>
+<span class="linenos">5</span>    <span class="n">num_seeds</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="linenos">6</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Each run in the mock source has <cite>accuracy</cite>, <cite>f1</cite>, and <cite>loss</cite> metrics, along with a <cite>seed</cite> parameter
+as well as the manually defined parameters <cite>model</cite> and <cite>lr</cite>.
+Next, the runs can be loaded and processed using functional-style queries to e.g., sort by accuracy,
+group by seed, aggregate the results by mean, and finally collect all results into a single list:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">runs</span> <span class="o">=</span> <span class="p">(</span>
+<span class="linenos">2</span>    <span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Query</span><span class="p">(</span><span class="nn">source</span><span class="o">.</span><span class="nf">load</span><span class="p">())</span>
+<span class="linenos">3</span>    <span class="o">.</span><span class="nf">sort</span><span class="p">(</span><span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Metric</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">))</span>
+<span class="linenos">4</span>    <span class="o">.</span><span class="nf">groupdiff</span><span class="p">(</span><span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Param</span><span class="p">(</span><span class="s2">&quot;seed&quot;</span><span class="p">))</span>
+<span class="linenos">5</span>    <span class="o">.</span><span class="nf">aggregate</span><span class="p">(</span><span class="s2">&quot;mean&quot;</span><span class="p">)</span>
+<span class="linenos">6</span>    <span class="o">.</span><span class="nf">all</span><span class="p">()</span>
+<span class="linenos">7</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now that the runs are loaded and processed, a <code class="xref py py-class docutils literal notranslate"><span class="pre">Report</span></code> comprising multiple blocks
+can be created to structure the content:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="n">report</span> <span class="o">=</span> <span class="nc">ablate</span><span class="o">.</span><span class="nc">Report</span><span class="p">(</span><span class="n">runs</span><span class="p">)</span>
+<span class="linenos"> 2</span><span class="nn">report</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nc">ablate</span><span class="o">.</span><span class="nc">blocks</span><span class="o">.</span><span class="nc">H1</span><span class="p">(</span><span class="s2">&quot;Model Performance&quot;</span><span class="p">))</span>
+<span class="linenos"> 3</span><span class="nn">report</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span>
+<span class="linenos"> 4</span>    <span class="nc">ablate</span><span class="o">.</span><span class="nc">blocks</span><span class="o">.</span><span class="nc">Table</span><span class="p">(</span>
+<span class="linenos"> 5</span>        <span class="n">columns</span><span class="o">=</span><span class="p">[</span>
+<span class="linenos"> 6</span>            <span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Param</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Model&quot;</span><span class="p">),</span>
+<span class="linenos"> 7</span>            <span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Param</span><span class="p">(</span><span class="s2">&quot;lr&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Learning Rate&quot;</span><span class="p">),</span>
+<span class="linenos"> 8</span>            <span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Metric</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">),</span>
+<span class="linenos"> 9</span>            <span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Metric</span><span class="p">(</span><span class="s2">&quot;f1&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;F1 Score&quot;</span><span class="p">),</span>
+<span class="linenos">10</span>            <span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Metric</span><span class="p">(</span><span class="s2">&quot;loss&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Loss&quot;</span><span class="p">),</span>
+<span class="linenos">11</span>        <span class="p">]</span>
+<span class="linenos">12</span>    <span class="p">)</span>
+<span class="linenos">13</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Finally, the report can be exported to a desired format such as <code class="xref py py-class docutils literal notranslate"><span class="pre">Markdown</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nc">ablate</span><span class="o">.</span><span class="nc">exporters</span><span class="o">.</span><span class="nc">Markdown</span><span class="p">()</span><span class="o">.</span><span class="nf">export</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will produce a <code class="file docutils literal notranslate"><span class="pre">report.md</span></code> file with the following content:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="gh"># Model Performance</span>
+
+| Model   |   Learning Rate |   Accuracy |   F1 Score |    Loss |
+|:--------|----------------:|-----------:|-----------:|--------:|
+| resnet  |           0.01  |    0.94285 |    0.90655 | 0.0847  |
+| vgg     |           0.01  |    0.92435 |    0.8813  | 0.0895  |
+| resnet  |           0.001 |    0.9262  |    0.8849  | 0.0743  |
+| vgg     |           0.001 |    0.92745 |    0.90875 | 0.08115 |
+</pre></div>
+</div>
+</section>
+<section id="combining-sources">
+<h3>Combining Sources<a class="headerlink" href="#combining-sources" title="Link to this heading">#</a></h3>
+<p>To compose multiple sources, they can be added together using the <code class="xref py py-attr docutils literal notranslate"><span class="pre">+</span></code> operator
+as they represent lists of <code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code> objects:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">runs1</span> <span class="o">=</span> <span class="nc">ablate</span><span class="o">.</span><span class="nc">sources</span><span class="o">.</span><span class="nc">Mock</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">.</span><span class="nf">load</span><span class="p">()</span>
+<span class="linenos">2</span><span class="n">runs2</span> <span class="o">=</span> <span class="nc">ablate</span><span class="o">.</span><span class="nc">sources</span><span class="o">.</span><span class="nc">Mock</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">.</span><span class="nf">load</span><span class="p">()</span>
+<span class="linenos">3</span>
+<span class="linenos">4</span><span class="n">all_runs</span> <span class="o">=</span> <span class="n">runs1</span> <span class="o">+</span> <span class="n">runs2</span> <span class="c1"># combines both sources into a single list of runs</span>
+</pre></div>
+</div>
+</section>
+<section id="functional-queries">
+<h3>Functional Queries<a class="headerlink" href="#functional-queries" title="Link to this heading">#</a></h3>
+<p><cite>ablate</cite> queries are functionally pure such that intermediate results are not modified and can be reused:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="n">runs</span> <span class="o">=</span> <span class="nc">ablate</span><span class="o">.</span><span class="nc">sources</span><span class="o">.</span><span class="nc">Mock</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">.</span><span class="nf">load</span><span class="p">()</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="n">sorted_runs</span> <span class="o">=</span> <span class="nc">Query</span><span class="p">(</span><span class="n">runs</span><span class="p">)</span><span class="o">.</span><span class="nf">sort</span><span class="p">(</span><span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Metric</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">))</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="n">filtered_runs</span> <span class="o">=</span> <span class="nn">sorted_runs</span><span class="o">.</span><span class="nf">filter</span><span class="p">(</span>
+<span class="linenos"> 6</span>    <span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Metric</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.9</span>
+<span class="linenos"> 7</span><span class="p">)</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="nn">sorted_runs</span><span class="o">.</span><span class="nf">all</span><span class="p">()</span> <span class="c1"># still contains all runs sorted by accuracy</span>
+<span class="linenos">10</span><span class="nn">filtered_runs</span><span class="o">.</span><span class="nf">all</span><span class="p">()</span> <span class="c1"># only contains runs with accuracy &gt; 0.9</span>
+</pre></div>
+</div>
+</section>
+<section id="composing-reports">
+<h3>Composing Reports<a class="headerlink" href="#composing-reports" title="Link to this heading">#</a></h3>
+<p>By default, <cite>ablate</cite> reports populate blocks based on the global list of runs passed to the report during initialization.
+To create more complex reports, blocks can be populated with a custom list of runs using the <cite>runs</cite> parameter:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="n">report</span> <span class="o">=</span> <span class="nc">ablate</span><span class="o">.</span><span class="nc">Report</span><span class="p">(</span><span class="nn">sorted_runs</span><span class="o">.</span><span class="nf">all</span><span class="p">())</span>
+<span class="linenos"> 2</span><span class="nn">report</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nc">ablate</span><span class="o">.</span><span class="nc">blocks</span><span class="o">.</span><span class="nc">H1</span><span class="p">(</span><span class="s2">&quot;Report with Sorted Runs and Filtered Runs&quot;</span><span class="p">))</span>
+<span class="linenos"> 3</span><span class="nn">report</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nc">ablate</span><span class="o">.</span><span class="nc">blocks</span><span class="o">.</span><span class="nc">H2</span><span class="p">(</span><span class="s2">&quot;Sorted Runs&quot;</span><span class="p">))</span>
+<span class="linenos"> 4</span><span class="nn">report</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span>
+<span class="linenos"> 5</span>    <span class="nc">ablate</span><span class="o">.</span><span class="nc">blocks</span><span class="o">.</span><span class="nc">Table</span><span class="p">(</span>
+<span class="linenos"> 6</span>        <span class="n">columns</span><span class="o">=</span><span class="p">[</span>
+<span class="linenos"> 7</span>            <span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Param</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Model&quot;</span><span class="p">),</span>
+<span class="linenos"> 8</span>            <span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Param</span><span class="p">(</span><span class="s2">&quot;lr&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Learning Rate&quot;</span><span class="p">),</span>
+<span class="linenos"> 9</span>            <span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Metric</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">),</span>
+<span class="linenos">10</span>        <span class="p">]</span>
+<span class="linenos">11</span>    <span class="p">)</span>
+<span class="linenos">12</span><span class="p">)</span>
+<span class="linenos">13</span><span class="nn">report</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nc">ablate</span><span class="o">.</span><span class="nc">blocks</span><span class="o">.</span><span class="nc">H2</span><span class="p">(</span><span class="s2">&quot;Filtered Runs&quot;</span><span class="p">))</span>
+<span class="linenos">14</span><span class="nn">report</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span>
+<span class="linenos">15</span>    <span class="nc">ablate</span><span class="o">.</span><span class="nc">blocks</span><span class="o">.</span><span class="nc">Table</span><span class="p">(</span>
+<span class="linenos">16</span>        <span class="n">runs</span> <span class="o">=</span> <span class="nn">filtered_runs</span><span class="o">.</span><span class="nf">all</span><span class="p">(),</span> <span class="c1"># use filtered runs only for this block</span>
+<span class="linenos">17</span>        <span class="n">columns</span><span class="o">=</span><span class="p">[</span>
+<span class="linenos">18</span>            <span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Param</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Model&quot;</span><span class="p">),</span>
+<span class="linenos">19</span>            <span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Param</span><span class="p">(</span><span class="s2">&quot;lr&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Learning Rate&quot;</span><span class="p">),</span>
+<span class="linenos">20</span>            <span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Metric</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">),</span>
+<span class="linenos">21</span>        <span class="p">]</span>
+<span class="linenos">22</span>    <span class="p">)</span>
+<span class="linenos">23</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="extending-ablate">
+<h2>Extending <cite>ablate</cite><a class="headerlink" href="#extending-ablate" title="Link to this heading">#</a></h2>
+<p><cite>ablate</cite> is designed to be extensible, allowing you to create custom <a class="reference internal" href="modules/sources.html#sources"><span class="std std-ref">sources</span></a>, <a class="reference internal" href="modules/blocks.html#blocks"><span class="std std-ref">blocks</span></a>,
+and <a class="reference internal" href="modules/exporters.html#exporters"><span class="std std-ref">exporters</span></a> by implementing their respective abstract classes.</p>
+<p>To contribute to <cite>ablate</cite>, please refer to the <a class="reference internal" href="development/contributing.html#contributing"><span class="std std-ref">contribution guide</span></a>.</p>
+</section>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules/sources.html">Sources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/queries.html">Queries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/blocks.html">Blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/reports.html">Reports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/exporters.html">Exporters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules/core.html">Core</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="development/contributing.html">Contributing</a></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quickstart">Quickstart</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-report">Creating a Report</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-sources">Combining Sources</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#functional-queries">Functional Queries</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#composing-reports">Composing Reports</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extending-ablate">Extending <cite>ablate</cite></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a><ul class="nav section-nav flex-column">
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025 (MIT) Simon Rampp.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+  </body>
+</html>
