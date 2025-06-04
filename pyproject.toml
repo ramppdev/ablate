@@ -107,6 +107,7 @@ lines-after-imports = 2
 addopts = "--cov=ablate --cov-report=term-missing"
 testpaths = "tests"
 filterwarnings = ["ignore::DeprecationWarning:jupyter_client.connect"]
+pythonpath = "."
 
 [tool.codespell]
 skip = "uv.lock"
