@@ -83,3 +83,47 @@ def test_temporal_metric_missing_returns_nan(example_run: Run) -> None:
 def test_temporal_metric_invalid_reduction() -> None:
     with pytest.raises(ValueError, match="Invalid reduction method"):
         TemporalMetric("accuracy", direction="max", reduction="median")  # type: ignore[arg-type]
+
+
+def test_predicate_and(example_run: Run) -> None:
+    acc = Metric("accuracy", direction="max")
+    loss = Metric("loss", direction="min")
+
+    pred = (acc > 0.8) & (loss < 0.2)
+    assert pred(example_run) is True
+
+    pred = (acc > 0.95) & (loss < 0.2)
+    assert pred(example_run) is False
+
+
+def test_predicate_or(example_run: Run) -> None:
+    acc = Metric("accuracy", direction="max")
+    loss = Metric("loss", direction="min")
+
+    pred = (acc > 0.95) | (loss < 0.2)
+    assert pred(example_run) is True
+
+    pred = (acc > 0.95) | (loss > 0.2)
+    assert pred(example_run) is False
+
+
+def test_predicate_not(example_run: Run) -> None:
+    acc = Metric("accuracy", direction="max")
+
+    pred = ~(acc > 0.95)
+    assert pred(example_run) is True
+
+    pred = ~(acc < 0.95)
+    assert pred(example_run) is False
+
+
+def test_chained_predicates(example_run: Run) -> None:
+    acc = Metric("accuracy", direction="max")
+    loss = Metric("loss", direction="min")
+    lr = Param("lr")
+
+    pred = ((acc > 0.8) & (loss < 0.2)) | (lr == 0.01)
+    assert pred(example_run) is True
+
+    pred = ((acc > 0.95) & (loss < 0.05)) | (lr == 0.02)
+    assert pred(example_run) is False

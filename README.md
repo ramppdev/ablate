@@ -59,9 +59,9 @@ To create your first [Report](https://ramppdev.github.io/ablate/modules/report.h
 For example, the built in [Mock](https://ramppdev.github.io/ablate/modules/sources.html#mock-source) can be used to simulate runs:
 
 ```python
-import ablate
+from ablate import sources
 
-source = ablate.sources.Mock(
+source = Mock(
   grid={"model": ["vgg", "resnet"], "lr": [0.01, 0.001]},
   num_seeds=2,
 )
@@ -73,10 +73,12 @@ Next, the runs can be loaded and processed using functional-style queries to e.g
 group by seed, aggregate the results by mean, and finally collect all results into a single list:
 
 ```python
+from ablate.queries import Query, Metric, Param
+
 runs = (
-    ablate.queries.Query(source.load())
-    .sort(ablate.queries.Metric("accuracy", direction="max"))
-    .groupdiff(ablate.queries.Param("seed"))
+    Query(source.load())
+    .sort(Metric("accuracy", direction="max"))
+    .groupdiff(Param("seed"))
     .aggregate("mean")
     .all()
 )
@@ -87,16 +89,19 @@ Now that the runs are loaded and processed, a [Report](https://ramppdev.github.i
 comprising multiple blocks can be created to structure the content:
 
 ```python
-report = ablate.Report(runs)
-report.add(ablate.blocks.H1("Model Performance"))
+from ablate import Report
+from ablate.blocks import H1, Table
+
+report = Report(runs)
+report.add(H1("Model Performance"))
 report.add(
-    ablate.blocks.Table(
+    Table(
         columns=[
-            ablate.queries.Param("model", label="Model"),
-            ablate.queries.Param("lr", label="Learning Rate"),
-            ablate.queries.Metric("accuracy", direction="max", label="Accuracy"),
-            ablate.queries.Metric("f1", direction="max", label="F1 Score"),
-            ablate.queries.Metric("loss", direction="min", label="Loss"),
+            Param("model", label="Model"),
+            Param("lr", label="Learning Rate"),
+            Metric("accuracy", direction="max", label="Accuracy"),
+            Metric("f1", direction="max", label="F1 Score"),
+            Metric("loss", direction="min", label="Loss"),
         ]
     )
 )
@@ -105,7 +110,9 @@ report.add(
 Finally, the report can be exported to a desired format such as [Markdown](https://ramppdev.github.io/ablate/modules/exporters.html#ablate.exporters.Markdown):
 
 ```python
-ablate.exporters.Markdown().export(report)
+from ablate.exporters import Markdown
+
+Markdown().export(report)
 ```
 
 This will produce a `report.md` file with the following content:
@@ -127,10 +134,41 @@ To compose multiple sources, they can be added together using the `+` operator
 as they represent lists of [Run](https://ramppdev.github.io/ablate/modules/core.html#ablate.core.types.Run) objects:
 
 ```python
-runs1 = ablate.sources.Mock(...).load()
-runs2 = ablate.sources.Mock(...).load()
+runs1 = Mock(...).load()
+runs2 = Mock(...).load()
 
 all_runs = runs1 + runs2 # combines both sources into a single list of runs
+```
+
+### Selector Expressions
+
+_ablate_ selectors are lightweight expressions that access attributes of experiment runs, such as parameters, metrics, or IDs.
+They support standard Python comparison operators and can be composed using logical operators to define complex query logic:
+
+```python
+accuracy = Metric("accuracy", direction="max")
+loss = Metric("loss", direction="min")
+
+runs = (
+    Query(source.load())
+    .filter((accuracy > 0.9) & (loss < 0.1))
+    .all()
+)
+```
+
+Selectors return callable predicates, so they can be used in any query operation that requires a condition.
+All standard comparisons are supported: `==`, `!=`, `<`, `<=`, `>`, `>=`.
+Logical operators `&` (and), `|` (or), and `~` (not) can be used to combine expressions:
+
+```python
+from ablate.queries import Id
+
+select = (Param("model") == "resnet") | (Param("lr") < 0.001) # select resnet or LR below 0.001
+
+exclude = ~(Id() == "run-42") # exclude a specific run by ID
+
+runs = Query(source.load()).filter(select & exclude).all()
+
 ```
 
 ### Functional Queries
@@ -138,13 +176,11 @@ all_runs = runs1 + runs2 # combines both sources into a single list of runs
 _ablate_ queries are functionally pure such that intermediate results are not modified and can be reused:
 
 ```python
-runs = ablate.sources.Mock(...).load()
+runs = Mock(...).load()
 
-sorted_runs = Query(runs).sort(ablate.queries.Metric("accuracy", direction="max"))
+sorted_runs = Query(runs).sort(Metric("accuracy", direction="max"))
 
-filtered_runs = sorted_runs.filter(
-    ablate.queries.Metric("accuracy", direction="max") > 0.9
-)
+filtered_runs = sorted_runs.filter(Metric("accuracy", direction="max") > 0.9)
 
 sorted_runs.all() # still contains all runs sorted by accuracy
 filtered_runs.all() # only contains runs with accuracy > 0.9
@@ -157,25 +193,25 @@ To create more complex reports, blocks can be populated with a custom list of ru
 
 ```python
 report = ablate.Report(sorted_runs.all())
-report.add(ablate.blocks.H1("Report with Sorted Runs and Filtered Runs"))
-report.add(ablate.blocks.H2("Sorted Runs"))
+report.add(H1("Report with Sorted Runs and Filtered Runs"))
+report.add(H2("Sorted Runs"))
 report.add(
-    ablate.blocks.Table(
+    Table(
         columns=[
-            ablate.queries.Param("model", label="Model"),
-            ablate.queries.Param("lr", label="Learning Rate"),
-            ablate.queries.Metric("accuracy", direction="max", label="Accuracy"),
+            Param("model", label="Model"),
+            Param("lr", label="Learning Rate"),
+            Metric("accuracy", direction="max", label="Accuracy"),
         ]
     )
 )
-report.add(ablate.blocks.H2("Filtered Runs"))
+report.add(H2("Filtered Runs"))
 report.add(
-    ablate.blocks.Table(
+    Table(
         runs = filtered_runs.all(), # use filtered runs only for this block
         columns=[
-            ablate.queries.Param("model", label="Model"),
-            ablate.queries.Param("lr", label="Learning Rate"),
-            ablate.queries.Metric("accuracy", direction="max", label="Accuracy"),
+            Param("model", label="Model"),
+            Param("lr", label="Learning Rate"),
+            Metric("accuracy", direction="max", label="Accuracy"),
         ]
     )
 )
