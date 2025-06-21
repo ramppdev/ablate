@@ -1,5 +1,5 @@
 import itertools
-from typing import Any, Dict, List
+from typing import Dict, List
 
 import numpy as np
 
@@ -11,7 +11,7 @@ from .abstract_source import AbstractSource
 class Mock(AbstractSource):
     def __init__(
         self,
-        grid: Dict[str, List[Any]],
+        grid: Dict[str, List[str | int | float | bool]],
         num_seeds: int = 1,
         steps: int = 25,
     ) -> None:
@@ -30,7 +30,11 @@ class Mock(AbstractSource):
         self.num_seeds = num_seeds
         self.steps = steps
 
-    def _generate_runs(self, param_dict: Dict[str, Any], idx: int) -> List[Run]:
+    def _generate_runs(
+        self,
+        param_dict: Dict[str, str | int | float | bool],
+        idx: int,
+    ) -> List[Run]:
         runs: List[Run] = []
         for local_seed in range(self.num_seeds):
             global_seed = idx * self.num_seeds + local_seed
