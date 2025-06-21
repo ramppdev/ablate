@@ -1,6 +1,6 @@
 [project]
 name = "ablate"
-version = "0.1.2"
+version = "0.2.1"
 description = "ablate turns deep learning experiments into structured, human-readable reports."
 authors = [{ name = "Simon Rampp", email = "simon@rampp.dev" }]
 license = { text = "MIT" }
