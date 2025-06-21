@@ -228,7 +228,7 @@ To create more complex reports, blocks can be populated with a custom list of ru
 .. code-block:: python
    :linenos:
 
-   report = ablate.Report(sorted_runs.all())
+   report = Report(sorted_runs.all())
    report.add(H1("Report with Sorted Runs and Filtered Runs"))
    report.add(H2("Sorted Runs"))
    report.add(
