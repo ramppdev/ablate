@@ -59,7 +59,7 @@ To create your first [Report](https://ramppdev.github.io/ablate/modules/report.h
 For example, the built in [Mock](https://ramppdev.github.io/ablate/modules/sources.html#mock-source) can be used to simulate runs:
 
 ```python
-from ablate import sources
+from ablate.sources import Mock
 
 source = Mock(
   grid={"model": ["vgg", "resnet"], "lr": [0.01, 0.001]},
@@ -192,7 +192,7 @@ By default, _ablate_ reports populate blocks based on the global list of runs pa
 To create more complex reports, blocks can be populated with a custom list of runs using the _runs_ parameter:
 
 ```python
-report = ablate.Report(sorted_runs.all())
+report = Report(sorted_runs.all())
 report.add(H1("Report with Sorted Runs and Filtered Runs"))
 report.add(H2("Sorted Runs"))
 report.add(
