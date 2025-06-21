@@ -1,8 +1,29 @@
+from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from operator import eq, ge, gt, le, lt, ne
-from typing import Any, Callable, Literal
+from typing import TYPE_CHECKING, Any, Callable, Literal
 
-from ablate.core.types import Run
+
+if TYPE_CHECKING:  # pragma: no cover
+    from ablate.core.types import Run
+
+
+class Predicate:
+    def __init__(self, fn: Callable[[Run], bool]) -> None:
+        self._fn = fn
+
+    def __call__(self, run: Run) -> bool:
+        return self._fn(run)
+
+    def __and__(self, other: Predicate) -> Predicate:
+        return Predicate(lambda run: self(run) and other(run))
+
+    def __or__(self, other: Predicate) -> Predicate:
+        return Predicate(lambda run: self(run) or other(run))
+
+    def __invert__(self) -> Predicate:
+        return Predicate(lambda run: not self(run))
 
 
 class AbstractSelector(ABC):
@@ -20,25 +41,25 @@ class AbstractSelector(ABC):
     @abstractmethod
     def __call__(self, run: Run) -> Any: ...
 
-    def _cmp(self, op: Callable[[Any, Any], bool], other: Any) -> Callable[[Run], bool]:
-        return lambda run: op(self.__call__(run), other)
+    def _cmp(self, op: Callable[[Any, Any], bool], other: Any) -> Predicate:
+        return Predicate(lambda run: op(self(run), other))
 
-    def __eq__(self, other: object) -> Callable[[Run], bool]:  # type: ignore[override]
+    def __eq__(self, other: object) -> Predicate:  # type: ignore[override]
         return self._cmp(eq, other)
 
-    def __ne__(self, other: object) -> Callable[[Run], bool]:  # type: ignore[override]
+    def __ne__(self, other: object) -> Predicate:  # type: ignore[override]
         return self._cmp(ne, other)
 
-    def __lt__(self, other: Any) -> Callable[[Run], bool]:
+    def __lt__(self, other: Any) -> Predicate:
         return self._cmp(lt, other)
 
-    def __le__(self, other: Any) -> Callable[[Run], bool]:
+    def __le__(self, other: Any) -> Predicate:
         return self._cmp(le, other)
 
-    def __gt__(self, other: Any) -> Callable[[Run], bool]:
+    def __gt__(self, other: Any) -> Predicate:
         return self._cmp(gt, other)
 
-    def __ge__(self, other: Any) -> Callable[[Run], bool]:
+    def __ge__(self, other: Any) -> Predicate:
         return self._cmp(ge, other)
 
 
