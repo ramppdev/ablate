@@ -42,7 +42,7 @@
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../_static/documentation_options.js?v=92734c54"></script>
+    <script src="../../../_static/documentation_options.js?v=37f418d5"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -315,7 +315,7 @@
                   
   <h1>Source code for ablate.sources.mock_source</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="n">itertools</span>
-<span class="kn">from</span><span class="w"> </span><span class="n">typing</span><span class="w"> </span><span class="kn">import</span> <span class="nc">Any</span><span class="p">,</span> <span class="nc">Dict</span><span class="p">,</span> <span class="nc">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="n">typing</span><span class="w"> </span><span class="kn">import</span> <span class="nc">Dict</span><span class="p">,</span> <span class="nc">List</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="n">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
@@ -329,7 +329,7 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">Mock</span><span class="p">(</span><span class="nc">AbstractSource</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="n">__init__</span><span class="p">(</span>
         <span class="n">self</span><span class="p">,</span>
-        <span class="n">grid</span><span class="p">:</span> <span class="nc">Dict</span><span class="p">[</span><span class="n">str</span><span class="p">,</span> <span class="nc">List</span><span class="p">[</span><span class="nc">Any</span><span class="p">]],</span>
+        <span class="n">grid</span><span class="p">:</span> <span class="nc">Dict</span><span class="p">[</span><span class="n">str</span><span class="p">,</span> <span class="nc">List</span><span class="p">[</span><span class="n">str</span> <span class="o">|</span> <span class="n">int</span> <span class="o">|</span> <span class="n">float</span> <span class="o">|</span> <span class="n">bool</span><span class="p">]],</span>
         <span class="n">num_seeds</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
         <span class="n">steps</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="mi">25</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -348,7 +348,11 @@
         <span class="nn">self</span><span class="o">.</span><span class="nn">num_seeds</span> <span class="o">=</span> <span class="n">num_seeds</span>
         <span class="nn">self</span><span class="o">.</span><span class="nn">steps</span> <span class="o">=</span> <span class="n">steps</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="n">_generate_runs</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">param_dict</span><span class="p">:</span> <span class="nc">Dict</span><span class="p">[</span><span class="n">str</span><span class="p">,</span> <span class="nc">Any</span><span class="p">],</span> <span class="n">idx</span><span class="p">:</span> <span class="n">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nc">List</span><span class="p">[</span><span class="nc">Run</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="n">_generate_runs</span><span class="p">(</span>
+        <span class="n">self</span><span class="p">,</span>
+        <span class="n">param_dict</span><span class="p">:</span> <span class="nc">Dict</span><span class="p">[</span><span class="n">str</span><span class="p">,</span> <span class="n">str</span> <span class="o">|</span> <span class="n">int</span> <span class="o">|</span> <span class="n">float</span> <span class="o">|</span> <span class="n">bool</span><span class="p">],</span>
+        <span class="n">idx</span><span class="p">:</span> <span class="n">int</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nc">List</span><span class="p">[</span><span class="nc">Run</span><span class="p">]:</span>
         <span class="n">runs</span><span class="p">:</span> <span class="nc">List</span><span class="p">[</span><span class="nc">Run</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">local_seed</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="nn">self</span><span class="o">.</span><span class="nn">num_seeds</span><span class="p">):</span>
             <span class="n">global_seed</span> <span class="o">=</span> <span class="n">idx</span> <span class="o">*</span> <span class="nn">self</span><span class="o">.</span><span class="nn">num_seeds</span> <span class="o">+</span> <span class="n">local_seed</span>

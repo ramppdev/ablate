@@ -43,7 +43,7 @@
 
     <script src="_static/jquery.js?v=5d32c60e"></script>
     <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="_static/documentation_options.js?v=92734c54"></script>
+    <script src="_static/documentation_options.js?v=37f418d5"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -343,9 +343,9 @@ and <a class="reference external" href="https://wandb.ai/">WandB</a></p></li>
 <h3>Creating a Report<a class="headerlink" href="#creating-a-report" title="Link to this heading">#</a></h3>
 <p>To create your first <a class="reference internal" href="modules/reports.html#ablate.Report" title="ablate.Report"><code class="xref py py-class docutils literal notranslate"><span class="pre">Report</span></code></a>, define one or more experiment sources.
 For example, the built in <a class="reference internal" href="modules/sources.html#ablate.sources.Mock" title="ablate.sources.Mock"><code class="xref py py-class docutils literal notranslate"><span class="pre">Mock</span></code></a> can be used to simulate runs:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">import</span><span class="w"> </span><span class="nc">ablate</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">from</span><span class="w"> </span><span class="nc">ablate</span><span class="nn">.</span><span class="nc">sources</span><span class="w"> </span><span class="kn">import</span> <span class="nc">Mock</span>
 <span class="linenos">2</span>
-<span class="linenos">3</span><span class="n">source</span> <span class="o">=</span> <span class="nc">ablate</span><span class="o">.</span><span class="nc">sources</span><span class="o">.</span><span class="nc">Mock</span><span class="p">(</span>
+<span class="linenos">3</span><span class="n">source</span> <span class="o">=</span> <span class="nc">Mock</span><span class="p">(</span>
 <span class="linenos">4</span>    <span class="n">grid</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;vgg&quot;</span><span class="p">,</span> <span class="s2">&quot;resnet&quot;</span><span class="p">],</span> <span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">]},</span>
 <span class="linenos">5</span>    <span class="n">num_seeds</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
 <span class="linenos">6</span><span class="p">)</span>
@@ -355,34 +355,41 @@ For example, the built in <a class="reference internal" href="modules/sources.ht
 as well as the manually defined parameters <cite>model</cite> and <cite>lr</cite>.
 Next, the runs can be loaded and processed using functional-style queries to e.g., sort by accuracy,
 group by seed, aggregate the results by mean, and finally collect all results into a single list:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">runs</span> <span class="o">=</span> <span class="p">(</span>
-<span class="linenos">2</span>    <span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Query</span><span class="p">(</span><span class="nn">source</span><span class="o">.</span><span class="nf">load</span><span class="p">())</span>
-<span class="linenos">3</span>    <span class="o">.</span><span class="nf">sort</span><span class="p">(</span><span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Metric</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">))</span>
-<span class="linenos">4</span>    <span class="o">.</span><span class="nf">groupdiff</span><span class="p">(</span><span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Param</span><span class="p">(</span><span class="s2">&quot;seed&quot;</span><span class="p">))</span>
-<span class="linenos">5</span>    <span class="o">.</span><span class="nf">aggregate</span><span class="p">(</span><span class="s2">&quot;mean&quot;</span><span class="p">)</span>
-<span class="linenos">6</span>    <span class="o">.</span><span class="nf">all</span><span class="p">()</span>
-<span class="linenos">7</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">from</span><span class="w"> </span><span class="nc">ablate</span><span class="nn">.</span><span class="nc">queries</span><span class="w"> </span><span class="kn">import</span> <span class="nc">Metric</span><span class="p">,</span> <span class="nc">Param</span><span class="p">,</span> <span class="nc">Query</span>
+<span class="linenos">2</span>
+<span class="linenos">3</span><span class="n">runs</span> <span class="o">=</span> <span class="p">(</span>
+<span class="linenos">4</span>    <span class="nc">Query</span><span class="p">(</span><span class="nn">source</span><span class="o">.</span><span class="nf">load</span><span class="p">())</span>
+<span class="linenos">5</span>    <span class="o">.</span><span class="nf">sort</span><span class="p">(</span><span class="nc">Metric</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">))</span>
+<span class="linenos">6</span>    <span class="o">.</span><span class="nf">groupdiff</span><span class="p">(</span><span class="nc">Param</span><span class="p">(</span><span class="s2">&quot;seed&quot;</span><span class="p">))</span>
+<span class="linenos">7</span>    <span class="o">.</span><span class="nf">aggregate</span><span class="p">(</span><span class="s2">&quot;mean&quot;</span><span class="p">)</span>
+<span class="linenos">8</span>    <span class="o">.</span><span class="nf">all</span><span class="p">()</span>
+<span class="linenos">9</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Now that the runs are loaded and processed, a <a class="reference internal" href="modules/reports.html#ablate.Report" title="ablate.Report"><code class="xref py py-class docutils literal notranslate"><span class="pre">Report</span></code></a> comprising multiple blocks
 can be created to structure the content:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="n">report</span> <span class="o">=</span> <span class="nc">ablate</span><span class="o">.</span><span class="nc">Report</span><span class="p">(</span><span class="n">runs</span><span class="p">)</span>
-<span class="linenos"> 2</span><span class="nn">report</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nc">ablate</span><span class="o">.</span><span class="nc">blocks</span><span class="o">.</span><span class="nc">H1</span><span class="p">(</span><span class="s2">&quot;Model Performance&quot;</span><span class="p">))</span>
-<span class="linenos"> 3</span><span class="nn">report</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span>
-<span class="linenos"> 4</span>    <span class="nc">ablate</span><span class="o">.</span><span class="nc">blocks</span><span class="o">.</span><span class="nc">Table</span><span class="p">(</span>
-<span class="linenos"> 5</span>        <span class="n">columns</span><span class="o">=</span><span class="p">[</span>
-<span class="linenos"> 6</span>            <span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Param</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Model&quot;</span><span class="p">),</span>
-<span class="linenos"> 7</span>            <span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Param</span><span class="p">(</span><span class="s2">&quot;lr&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Learning Rate&quot;</span><span class="p">),</span>
-<span class="linenos"> 8</span>            <span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Metric</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">),</span>
-<span class="linenos"> 9</span>            <span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Metric</span><span class="p">(</span><span class="s2">&quot;f1&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;F1 Score&quot;</span><span class="p">),</span>
-<span class="linenos">10</span>            <span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Metric</span><span class="p">(</span><span class="s2">&quot;loss&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Loss&quot;</span><span class="p">),</span>
-<span class="linenos">11</span>        <span class="p">]</span>
-<span class="linenos">12</span>    <span class="p">)</span>
-<span class="linenos">13</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span><span class="w"> </span><span class="nc">ablate</span><span class="w"> </span><span class="kn">import</span> <span class="nc">Report</span>
+<span class="linenos"> 2</span><span class="kn">from</span><span class="w"> </span><span class="nc">ablate</span><span class="nn">.</span><span class="nc">blocks</span><span class="w"> </span><span class="kn">import</span> <span class="nc">H1</span><span class="p">,</span> <span class="nc">Table</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="n">report</span> <span class="o">=</span> <span class="nc">Report</span><span class="p">(</span><span class="n">runs</span><span class="p">)</span>
+<span class="linenos"> 5</span><span class="nn">report</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nc">H1</span><span class="p">(</span><span class="s2">&quot;Model Performance&quot;</span><span class="p">))</span>
+<span class="linenos"> 6</span><span class="nn">report</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span>
+<span class="linenos"> 7</span>    <span class="nc">Table</span><span class="p">(</span>
+<span class="linenos"> 8</span>        <span class="n">columns</span><span class="o">=</span><span class="p">[</span>
+<span class="linenos"> 9</span>            <span class="nc">Param</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Model&quot;</span><span class="p">),</span>
+<span class="linenos">10</span>            <span class="nc">Param</span><span class="p">(</span><span class="s2">&quot;lr&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Learning Rate&quot;</span><span class="p">),</span>
+<span class="linenos">11</span>            <span class="nc">Metric</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">),</span>
+<span class="linenos">12</span>            <span class="nc">Metric</span><span class="p">(</span><span class="s2">&quot;f1&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;F1 Score&quot;</span><span class="p">),</span>
+<span class="linenos">13</span>            <span class="nc">Metric</span><span class="p">(</span><span class="s2">&quot;loss&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Loss&quot;</span><span class="p">),</span>
+<span class="linenos">14</span>        <span class="p">]</span>
+<span class="linenos">15</span>    <span class="p">)</span>
+<span class="linenos">16</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Finally, the report can be exported to a desired format such as <a class="reference internal" href="modules/exporters.html#ablate.exporters.Markdown" title="ablate.exporters.Markdown"><code class="xref py py-class docutils literal notranslate"><span class="pre">Markdown</span></code></a>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nc">ablate</span><span class="o">.</span><span class="nc">exporters</span><span class="o">.</span><span class="nc">Markdown</span><span class="p">()</span><span class="o">.</span><span class="nf">export</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">from</span><span class="w"> </span><span class="nc">ablate</span><span class="nn">.</span><span class="nc">exporters</span><span class="w"> </span><span class="kn">import</span> <span class="nc">Markdown</span>
+<span class="linenos">2</span>
+<span class="linenos">3</span><span class="nc">Markdown</span><span class="p">()</span><span class="o">.</span><span class="nf">export</span><span class="p">(</span><span class="n">report</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This will produce a <code class="file docutils literal notranslate"><span class="pre">report.md</span></code> file with the following content:</p>
@@ -401,26 +408,51 @@ can be created to structure the content:</p>
 <h3>Combining Sources<a class="headerlink" href="#combining-sources" title="Link to this heading">#</a></h3>
 <p>To compose multiple sources, they can be added together using the <code class="xref py py-attr docutils literal notranslate"><span class="pre">+</span></code> operator
 as they represent lists of <a class="reference internal" href="modules/core.html#ablate.core.types.Run" title="ablate.core.types.Run"><code class="xref py py-class docutils literal notranslate"><span class="pre">Run</span></code></a> objects:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">runs1</span> <span class="o">=</span> <span class="nc">ablate</span><span class="o">.</span><span class="nc">sources</span><span class="o">.</span><span class="nc">Mock</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">.</span><span class="nf">load</span><span class="p">()</span>
-<span class="linenos">2</span><span class="n">runs2</span> <span class="o">=</span> <span class="nc">ablate</span><span class="o">.</span><span class="nc">sources</span><span class="o">.</span><span class="nc">Mock</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">.</span><span class="nf">load</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">runs1</span> <span class="o">=</span> <span class="nc">Mock</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">.</span><span class="nf">load</span><span class="p">()</span>
+<span class="linenos">2</span><span class="n">runs2</span> <span class="o">=</span> <span class="nc">Mock</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">.</span><span class="nf">load</span><span class="p">()</span>
 <span class="linenos">3</span>
 <span class="linenos">4</span><span class="n">all_runs</span> <span class="o">=</span> <span class="n">runs1</span> <span class="o">+</span> <span class="n">runs2</span> <span class="c1"># combines both sources into a single list of runs</span>
+</pre></div>
+</div>
+</section>
+<section id="selector-expressions">
+<h3>Selector Expressions<a class="headerlink" href="#selector-expressions" title="Link to this heading">#</a></h3>
+<p><cite>ablate</cite> selectors are lightweight expressions that access attributes of experiment runs, such as parameters, metrics, or IDs.
+They support standard Python comparison operators and can be composed using logical operators to define complex query logic:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">accuracy</span> <span class="o">=</span> <span class="nc">Metric</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">)</span>
+<span class="linenos">2</span><span class="n">loss</span> <span class="o">=</span> <span class="nc">Metric</span><span class="p">(</span><span class="s2">&quot;loss&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;min&quot;</span><span class="p">)</span>
+<span class="linenos">3</span>
+<span class="linenos">4</span><span class="n">runs</span> <span class="o">=</span> <span class="p">(</span>
+<span class="linenos">5</span>    <span class="nc">Query</span><span class="p">(</span><span class="nn">source</span><span class="o">.</span><span class="nf">load</span><span class="p">())</span>
+<span class="linenos">6</span>    <span class="o">.</span><span class="nf">filter</span><span class="p">((</span><span class="n">accuracy</span> <span class="o">&gt;</span> <span class="mf">0.9</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">loss</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="p">))</span>
+<span class="linenos">7</span>    <span class="o">.</span><span class="nf">all</span><span class="p">()</span>
+<span class="linenos">8</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Selectors return callable predicates, so they can be used in any query operation that requires a condition.
+All standard comparisons are supported: <code class="xref py py-attr docutils literal notranslate"><span class="pre">==</span></code>, <code class="xref py py-attr docutils literal notranslate"><span class="pre">=</span></code>, <code class="xref py py-attr docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="xref py py-attr docutils literal notranslate"><span class="pre">&lt;=</span></code>, <code class="xref py py-attr docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="xref py py-attr docutils literal notranslate"><span class="pre">&gt;=</span></code>.
+Logical operators <code class="xref py py-attr docutils literal notranslate"><span class="pre">&amp;</span></code> (and), <code class="xref py py-attr docutils literal notranslate"><span class="pre">|</span></code> (or), and <code class="xref py py-attr docutils literal notranslate"><span class="pre">~</span></code> (not) can be used to combine expressions:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="kn">from</span><span class="w"> </span><span class="nc">ablate</span><span class="nn">.</span><span class="nc">queries</span><span class="w"> </span><span class="kn">import</span> <span class="nc">Id</span>
+<span class="linenos">2</span>
+<span class="linenos">3</span><span class="n">select</span> <span class="o">=</span> <span class="p">(</span><span class="nc">Param</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;resnet&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="nc">Param</span><span class="p">(</span><span class="s2">&quot;lr&quot;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.001</span><span class="p">)</span> <span class="c1"># select resnet or LR below 0.001</span>
+<span class="linenos">4</span>
+<span class="linenos">5</span><span class="n">exclude</span> <span class="o">=</span> <span class="o">~</span><span class="p">(</span><span class="nc">Id</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;run-42&quot;</span><span class="p">)</span> <span class="c1"># exclude a specific run by ID</span>
+<span class="linenos">6</span>
+<span class="linenos">7</span><span class="n">runs</span> <span class="o">=</span> <span class="nc">Query</span><span class="p">(</span><span class="nn">source</span><span class="o">.</span><span class="nf">load</span><span class="p">())</span><span class="o">.</span><span class="nf">filter</span><span class="p">(</span><span class="n">select</span> <span class="o">&amp;</span> <span class="n">exclude</span><span class="p">)</span><span class="o">.</span><span class="nf">all</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>
 <section id="functional-queries">
 <h3>Functional Queries<a class="headerlink" href="#functional-queries" title="Link to this heading">#</a></h3>
 <p><cite>ablate</cite> queries are functionally pure such that intermediate results are not modified and can be reused:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="n">runs</span> <span class="o">=</span> <span class="nc">ablate</span><span class="o">.</span><span class="nc">sources</span><span class="o">.</span><span class="nc">Mock</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">.</span><span class="nf">load</span><span class="p">()</span>
-<span class="linenos"> 2</span>
-<span class="linenos"> 3</span><span class="n">sorted_runs</span> <span class="o">=</span> <span class="nc">Query</span><span class="p">(</span><span class="n">runs</span><span class="p">)</span><span class="o">.</span><span class="nf">sort</span><span class="p">(</span><span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Metric</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">))</span>
-<span class="linenos"> 4</span>
-<span class="linenos"> 5</span><span class="n">filtered_runs</span> <span class="o">=</span> <span class="nn">sorted_runs</span><span class="o">.</span><span class="nf">filter</span><span class="p">(</span>
-<span class="linenos"> 6</span>    <span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Metric</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.9</span>
-<span class="linenos"> 7</span><span class="p">)</span>
-<span class="linenos"> 8</span>
-<span class="linenos"> 9</span><span class="nn">sorted_runs</span><span class="o">.</span><span class="nf">all</span><span class="p">()</span> <span class="c1"># still contains all runs sorted by accuracy</span>
-<span class="linenos">10</span><span class="nn">filtered_runs</span><span class="o">.</span><span class="nf">all</span><span class="p">()</span> <span class="c1"># only contains runs with accuracy &gt; 0.9</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="n">runs</span> <span class="o">=</span> <span class="nc">Mock</span><span class="p">(</span><span class="o">...</span><span class="p">)</span><span class="o">.</span><span class="nf">load</span><span class="p">()</span>
+<span class="linenos">2</span>
+<span class="linenos">3</span><span class="n">sorted_runs</span> <span class="o">=</span> <span class="nc">Query</span><span class="p">(</span><span class="n">runs</span><span class="p">)</span><span class="o">.</span><span class="nf">sort</span><span class="p">(</span><span class="nc">Metric</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">))</span>
+<span class="linenos">4</span>
+<span class="linenos">5</span><span class="n">filtered_runs</span> <span class="o">=</span> <span class="nn">sorted_runs</span><span class="o">.</span><span class="nf">filter</span><span class="p">(</span><span class="nc">Metric</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.9</span><span class="p">)</span>
+<span class="linenos">6</span>
+<span class="linenos">7</span><span class="nn">sorted_runs</span><span class="o">.</span><span class="nf">all</span><span class="p">()</span> <span class="c1"># still contains all runs sorted by accuracy</span>
+<span class="linenos">8</span><span class="nn">filtered_runs</span><span class="o">.</span><span class="nf">all</span><span class="p">()</span> <span class="c1"># only contains runs with accuracy &gt; 0.9</span>
 </pre></div>
 </div>
 </section>
@@ -428,26 +460,26 @@ as they represent lists of <a class="reference internal" href="modules/core.html
 <h3>Composing Reports<a class="headerlink" href="#composing-reports" title="Link to this heading">#</a></h3>
 <p>By default, <cite>ablate</cite> reports populate blocks based on the global list of runs passed to the report during initialization.
 To create more complex reports, blocks can be populated with a custom list of runs using the <cite>runs</cite> parameter:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="n">report</span> <span class="o">=</span> <span class="nc">ablate</span><span class="o">.</span><span class="nc">Report</span><span class="p">(</span><span class="nn">sorted_runs</span><span class="o">.</span><span class="nf">all</span><span class="p">())</span>
-<span class="linenos"> 2</span><span class="nn">report</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nc">ablate</span><span class="o">.</span><span class="nc">blocks</span><span class="o">.</span><span class="nc">H1</span><span class="p">(</span><span class="s2">&quot;Report with Sorted Runs and Filtered Runs&quot;</span><span class="p">))</span>
-<span class="linenos"> 3</span><span class="nn">report</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nc">ablate</span><span class="o">.</span><span class="nc">blocks</span><span class="o">.</span><span class="nc">H2</span><span class="p">(</span><span class="s2">&quot;Sorted Runs&quot;</span><span class="p">))</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="n">report</span> <span class="o">=</span> <span class="nc">Report</span><span class="p">(</span><span class="nn">sorted_runs</span><span class="o">.</span><span class="nf">all</span><span class="p">())</span>
+<span class="linenos"> 2</span><span class="nn">report</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nc">H1</span><span class="p">(</span><span class="s2">&quot;Report with Sorted Runs and Filtered Runs&quot;</span><span class="p">))</span>
+<span class="linenos"> 3</span><span class="nn">report</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nc">H2</span><span class="p">(</span><span class="s2">&quot;Sorted Runs&quot;</span><span class="p">))</span>
 <span class="linenos"> 4</span><span class="nn">report</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span>
-<span class="linenos"> 5</span>    <span class="nc">ablate</span><span class="o">.</span><span class="nc">blocks</span><span class="o">.</span><span class="nc">Table</span><span class="p">(</span>
+<span class="linenos"> 5</span>    <span class="nc">Table</span><span class="p">(</span>
 <span class="linenos"> 6</span>        <span class="n">columns</span><span class="o">=</span><span class="p">[</span>
-<span class="linenos"> 7</span>            <span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Param</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Model&quot;</span><span class="p">),</span>
-<span class="linenos"> 8</span>            <span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Param</span><span class="p">(</span><span class="s2">&quot;lr&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Learning Rate&quot;</span><span class="p">),</span>
-<span class="linenos"> 9</span>            <span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Metric</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">),</span>
+<span class="linenos"> 7</span>            <span class="nc">Param</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Model&quot;</span><span class="p">),</span>
+<span class="linenos"> 8</span>            <span class="nc">Param</span><span class="p">(</span><span class="s2">&quot;lr&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Learning Rate&quot;</span><span class="p">),</span>
+<span class="linenos"> 9</span>            <span class="nc">Metric</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">),</span>
 <span class="linenos">10</span>        <span class="p">]</span>
 <span class="linenos">11</span>    <span class="p">)</span>
 <span class="linenos">12</span><span class="p">)</span>
-<span class="linenos">13</span><span class="nn">report</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nc">ablate</span><span class="o">.</span><span class="nc">blocks</span><span class="o">.</span><span class="nc">H2</span><span class="p">(</span><span class="s2">&quot;Filtered Runs&quot;</span><span class="p">))</span>
+<span class="linenos">13</span><span class="nn">report</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span><span class="nc">H2</span><span class="p">(</span><span class="s2">&quot;Filtered Runs&quot;</span><span class="p">))</span>
 <span class="linenos">14</span><span class="nn">report</span><span class="o">.</span><span class="nf">add</span><span class="p">(</span>
-<span class="linenos">15</span>    <span class="nc">ablate</span><span class="o">.</span><span class="nc">blocks</span><span class="o">.</span><span class="nc">Table</span><span class="p">(</span>
+<span class="linenos">15</span>    <span class="nc">Table</span><span class="p">(</span>
 <span class="linenos">16</span>        <span class="n">runs</span> <span class="o">=</span> <span class="nn">filtered_runs</span><span class="o">.</span><span class="nf">all</span><span class="p">(),</span> <span class="c1"># use filtered runs only for this block</span>
 <span class="linenos">17</span>        <span class="n">columns</span><span class="o">=</span><span class="p">[</span>
-<span class="linenos">18</span>            <span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Param</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Model&quot;</span><span class="p">),</span>
-<span class="linenos">19</span>            <span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Param</span><span class="p">(</span><span class="s2">&quot;lr&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Learning Rate&quot;</span><span class="p">),</span>
-<span class="linenos">20</span>            <span class="nc">ablate</span><span class="o">.</span><span class="nc">queries</span><span class="o">.</span><span class="nc">Metric</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">),</span>
+<span class="linenos">18</span>            <span class="nc">Param</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Model&quot;</span><span class="p">),</span>
+<span class="linenos">19</span>            <span class="nc">Param</span><span class="p">(</span><span class="s2">&quot;lr&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Learning Rate&quot;</span><span class="p">),</span>
+<span class="linenos">20</span>            <span class="nc">Metric</span><span class="p">(</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;max&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Accuracy&quot;</span><span class="p">),</span>
 <span class="linenos">21</span>        <span class="p">]</span>
 <span class="linenos">22</span>    <span class="p">)</span>
 <span class="linenos">23</span><span class="p">)</span>
@@ -510,6 +542,7 @@ and <a class="reference internal" href="modules/exporters.html#exporters"><span 
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quickstart">Quickstart</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-report">Creating a Report</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-sources">Combining Sources</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#selector-expressions">Selector Expressions</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#functional-queries">Functional Queries</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#composing-reports">Composing Reports</a></li>
 </ul>
