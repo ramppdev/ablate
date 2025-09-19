@@ -4,7 +4,7 @@ version = "0.2.1"
 description = "ablate turns deep learning experiments into structured, human-readable reports."
 authors = [{ name = "Simon Rampp", email = "simon@rampp.dev" }]
 license = { text = "MIT" }
-readme = "README.md"
+readme = "README.rst"
 requires-python = ">=3.10"
 keywords = [
     "machine learning",
@@ -42,6 +42,7 @@ dev = [
     "pytest-cov>=6.1.1",
     "ruff==0.11.8",
     "tomli>=2.2.1",
+    "twine>=6.2.0",
     "types-pyyaml>=6.0.12.20250516",
     "types-seaborn>=0.13.2.20250516",
 ]
