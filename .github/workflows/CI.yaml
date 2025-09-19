@@ -23,6 +23,12 @@ jobs:
           cache-dependency-glob: "uv.lock"
       - name: Sync dependencies
         run: uv sync --locked --all-extras --all-groups
+      - name: Build Docs
+        run: uv run sphinx-build -b html docs/source docs/build
+      - name: Check README rendering
+        run: |
+          uv build
+          uv run twine check dist/*
       - name: Run pre-commit
         run: uv run pre-commit run --all-files
       - name: Run tests

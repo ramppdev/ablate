@@ -1,4 +1,4 @@
-.. image:: _static/logo_banner.png
+.. image:: https://ramppdev.github.io/ablate/_images/logo_banner.png
    :alt: ablate turns deep learning experiments into structured, human-readable reports.
    :align: center
 
@@ -15,7 +15,8 @@ ablate
 * **readability**: reports are generated with humans in mind: shareable, inspectable, and format-agnostic
 * **minimal friction**: no servers, no databases, no heavy integrations: just Python and your existing logs
 
-Currently, `ablate` supports the following :ref:`sources <sources>` and :ref:`exporters <exporters>`:
+Currently, `ablate` supports the following `sources <https://ramppdev.github.io/ablate/modules/sources.html>`_
+and `exporters <https://ramppdev.github.io/ablate/modules/exporters.html>`_:
 
 * sources:
   `autrainer <https://github.com/autrainer/autrainer>`_,
@@ -23,7 +24,7 @@ Currently, `ablate` supports the following :ref:`sources <sources>` and :ref:`ex
   `MLflow <https://mlflow.org/>`_,
   `TensorBoard <https://www.tensorflow.org/tensorboard>`_,
   and `WandB <https://wandb.ai/>`_
-* exporters: `Markdown <https://www.markdownguide.org/>`_ and `Jupyter <https://jupyter.org/>`_
+* exporters: `Markdown <https://www.markdownguide.org/>`__ and `Jupyter <https://jupyter.org/>`_
 
 
 .. |pypi| image:: https://img.shields.io/pypi/v/ablate?logo=pypi&logoColor=b4befe&color=b4befe
@@ -46,17 +47,17 @@ Installation
 
 Install `ablate` using `pip`:
 
-.. code-block:: bash
+.. code:: bash
 
    pip install ablate
 
 The following optional dependencies can be installed to enable additional features:
 
-* :attr:`ablate[clearml]` to use `ClearML <https://clear.ml/>`_ as an experiment source
-* :attr:`ablate[mlflow]` to use `MLflow <https://mlflow.org/>`_ as an experiment source
-* :attr:`ablate[tensorboard]` to use `TensorBoard <https://www.tensorflow.org/tensorboard>`_ as an experiment source
-* :attr:`ablate[wandb]` to use `WandB <https://wandb.ai/>`_ as an experiment source
-* :attr:`ablate[jupyter]` to use `ablate` in a `Jupyter <https://jupyter.org/>`_ notebook
+* ``ablate[clearml]`` to use `ClearML <https://clear.ml/>`_ as an experiment source
+* ``ablate[mlflow]`` to use `MLflow <https://mlflow.org/>`_ as an experiment source
+* ``ablate[tensorboard]`` to use `TensorBoard <https://www.tensorflow.org/tensorboard>`_ as an experiment source
+* ``ablate[wandb]`` to use `WandB <https://wandb.ai/>`_ as an experiment source
+* ``ablate[jupyter]`` to use `ablate` in a `Jupyter <https://jupyter.org/>`_ notebook
 
 
 Quickstart
@@ -64,21 +65,20 @@ Quickstart
 
 `ablate` is built around five composable modules:
 
-* :ref:`ablate.sources <sources>`: load experiment runs from various sources
-* :ref:`ablate.queries <queries>`: apply queries and transformations to the runs
-* :ref:`ablate.blocks <blocks>`: structure content as tables, text, figures, and other blocks
-* :ref:`ablate.Report <reports>`: create a report from the runs and blocks
-* :ref:`ablate.exporters <exporters>`: export a report to various formats
+* `ablate.sources <https://ramppdev.github.io/ablate/modules/sources.html>`_: load experiment runs from various sources
+* `ablate.queries <https://ramppdev.github.io/ablate/modules/queries.html>`_: apply queries and transformations to the runs
+* `ablate.blocks <https://ramppdev.github.io/ablate/modules/blocks.html>`_: structure content as tables, text, figures, and other blocks
+* `ablate.Report <https://ramppdev.github.io/ablate/modules/report.html>`_: create a report from the runs and blocks
+* `ablate.exporters <https://ramppdev.github.io/ablate/modules/exporters.html>`_: export a report to various formats
 
 
 Creating a Report
 ~~~~~~~~~~~~~~~~~
 
-To create your first :class:`~ablate.Report`, define one or more experiment sources.
-For example, the built in :class:`~ablate.sources.Mock` can be used to simulate runs:
+To create your first `Report <https://ramppdev.github.io/ablate/modules/reports.html#ablate.Report>`_, define one or more experiment sources.
+For example, the built in `Mock <https://ramppdev.github.io/ablate/modules/sources.html#ablate.sources.Mock>`_ can be used to simulate runs:
 
-.. code-block:: python
-   :linenos:
+.. code:: python
 
    from ablate.sources import Mock
 
@@ -92,8 +92,7 @@ as well as the manually defined parameters `model` and `lr`.
 Next, the runs can be loaded and processed using functional-style queries to e.g., sort by accuracy,
 group by seed, aggregate the results by mean, and finally collect all results into a single list:
 
-.. code-block:: python
-   :linenos:
+.. code:: python
 
    from ablate.queries import Metric, Param, Query
 
@@ -105,11 +104,10 @@ group by seed, aggregate the results by mean, and finally collect all results in
        .all()
    )
 
-Now that the runs are loaded and processed, a :class:`~ablate.Report` comprising multiple blocks 
-can be created to structure the content:
+Now that the runs are loaded and processed, a `Report <https://ramppdev.github.io/ablate/modules/reports.html#ablate.Report>`_
+comprising multiple blocks can be created to structure the content:
 
-.. code-block:: python
-   :linenos:
+.. code:: python
 
    from ablate import Report
    from ablate.blocks import H1, Table
@@ -128,18 +126,18 @@ can be created to structure the content:
        )
    )
 
-Finally, the report can be exported to a desired format such as :class:`~ablate.exporters.Markdown`:
+Finally, the report can be exported to a desired format such as
+`Markdown <https://ramppdev.github.io/ablate/modules/exporters.html#ablate.exporters.Markdown>`_:
 
-.. code-block:: python
-   :linenos:
+.. code:: python
 
    from ablate.exporters import Markdown
 
    Markdown().export(report)
 
-This will produce a :file:`report.md` file with the following content:
+This will produce a ``report.md`` file with the following content:
 
-.. code-block:: markdown
+.. code:: markdown
 
    # Model Performance
 
@@ -154,11 +152,10 @@ This will produce a :file:`report.md` file with the following content:
 Combining Sources
 ~~~~~~~~~~~~~~~~~
 
-To compose multiple sources, they can be added together using the :attr:`+` operator
-as they represent lists of :class:`~ablate.core.types.Run` objects:
+To compose multiple sources, they can be added together using the ``+`` operator as they represent lists of
+`Run <https://ramppdev.github.io/ablate/modules/core.html#ablate.core.types.Run>`_ objects:
 
-.. code-block:: python
-   :linenos:
+.. code:: python
 
    runs1 = Mock(...).load()
    runs2 = Mock(...).load()
@@ -172,8 +169,7 @@ Selector Expressions
 `ablate` selectors are lightweight expressions that access attributes of experiment runs, such as parameters, metrics, or IDs.
 They support standard Python comparison operators and can be composed using logical operators to define complex query logic:
 
-.. code-block:: python
-   :linenos:
+.. code:: python
 
    accuracy = Metric("accuracy", direction="max")
    loss = Metric("loss", direction="min")
@@ -186,11 +182,10 @@ They support standard Python comparison operators and can be composed using logi
 
 
 Selectors return callable predicates, so they can be used in any query operation that requires a condition.
-All standard comparisons are supported: :attr:`==`, :attr:`!=`, :attr:`<`, :attr:`<=`, :attr:`>`, :attr:`>=`.
-Logical operators :attr:`&` (and), :attr:`|` (or), and :attr:`~~` (not) can be used to combine expressions:
+All standard comparisons are supported: ``==``, ``!=``, ``<``, ``<=``, ``>``, ``>=``.
+Logical operators ``&`` (and), ``|`` (or), and ``~`` (not) can be used to combine expressions:
 
-.. code-block:: python
-   :linenos:
+.. code:: python
 
    from ablate.queries import Id
 
@@ -206,8 +201,7 @@ Functional Queries
 
 `ablate` queries are functionally pure such that intermediate results are not modified and can be reused:
 
-.. code-block:: python
-   :linenos:
+.. code:: python
 
    runs = Mock(...).load()
 
@@ -225,8 +219,7 @@ Composing Reports
 By default, `ablate` reports populate blocks based on the global list of runs passed to the report during initialization.
 To create more complex reports, blocks can be populated with a custom list of runs using the `runs` parameter:
 
-.. code-block:: python
-   :linenos:
+.. code:: python
 
    report = Report(sorted_runs.all())
    report.add(H1("Report with Sorted Runs and Filtered Runs"))
@@ -256,7 +249,8 @@ To create more complex reports, blocks can be populated with a custom list of ru
 Extending `ablate`
 ------------------
 
-`ablate` is designed to be extensible, allowing you to create custom :ref:`sources <sources>`, :ref:`blocks <blocks>`,
-and :ref:`exporters <exporters>` by implementing their respective abstract classes.
+`ablate` is designed to be extensible, allowing you to create custom `sources <https://ramppdev.github.io/ablate/modules/sources.html>`_,
+`blocks <https://ramppdev.github.io/ablate/modules/blocks.html>`_,
+and `exporters <https://ramppdev.github.io/ablate/modules/exporters.html>`_ by implementing their respective abstract classes.
 
-To contribute to `ablate`, please refer to the :ref:`contribution guide <contributing>`.
+To contribute to `ablate`, please refer to the `contribution guide <https://ramppdev.github.io/ablate/development/contributing.html>`_.
