@@ -1,4 +1,4 @@
-.. image:: _static/logo_banner.png
+.. image:: https://ramppdev.github.io/ablate/_images/logo_banner.png
    :alt: ablate turns deep learning experiments into structured, human-readable reports.
    :align: center
 
